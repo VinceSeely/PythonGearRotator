@@ -1,6 +1,6 @@
 [gears]: ./images/gearsOrientation.jpg
 [gearChart]: ./images/GearDecision.jpg
-[implementationInfo]: ./Documentation/Implemntation.md
+[implementationInfo]: ./Documentation/Implementation.md
 [iterativeSearch]: ./Documentation/IterativeBreadthSearch.md
 
 # PythonGearRotator
