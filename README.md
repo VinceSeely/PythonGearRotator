@@ -1,6 +1,7 @@
 [gears]: ./images/gearsOrientation.jpg
 [gearChart]: ./images/GearDecision.jpg
-[implementationInfo]: https://github.com/VinceSeely/PythonGearRotator/blob/master/Documentation/Implemntation.md
+[implementationInfo]: ./Documentation/Implemntation.md
+[iterativeSearch]: ./Documentation/IterativeBreadthSearch.md
 
 # PythonGearRotator
 
@@ -26,3 +27,5 @@ When a person turns a gear there is a number of other gears that can turn an unk
 ![alt text][gearChart]
 
 ## [Implementation Details][implementationInfo]
+
+## [Iterative Depth Search][iterativeSearch]

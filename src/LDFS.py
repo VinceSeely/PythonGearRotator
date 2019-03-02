@@ -18,14 +18,14 @@ class LDFS:
             return None
 
         if gearPositions is goalState:
-            return gears
+            return []
 
         for gearToBeRotated in range(gears.Length):
             gearCopy = gears.copy()
             self._Rotate(gearCopy, gearToBeRotated)
             result = self._LimitedSearch(gearCopy, currentLevel + 1, maxLevel, goalState)
             if result is not None:
-                return result
+                return result.append(gearToBeRotated)
             
         return None 
 
