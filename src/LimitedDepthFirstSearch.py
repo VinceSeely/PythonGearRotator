@@ -1,6 +1,6 @@
 
 
-class LDFS:
+class LimitedDepthFirstSearch:
     def __init__ (self):
         self.closed = []
 
@@ -12,10 +12,11 @@ class LDFS:
         gearPositions = []    
         for gear in gears:
             gearPositions.append(gear.possition)
-        self.closed.append(gearPositions)
 
         if self.closed.__contains__(gearPositions):
             return None
+
+        self.closed.append(gearPositions)
 
         if gearPositions is goalState:
             return []
