@@ -29,3 +29,5 @@ _limitedSearch (currentLevel, maxLevel, gears, goalState)
 ## Algorithm Properties
 
 ## Results
+
+[back](../README.md)
