@@ -1,4 +1,4 @@
-# Iterative Breadth Search
+# Iterative Depth Search
 
 ## Algorithm Description
 
