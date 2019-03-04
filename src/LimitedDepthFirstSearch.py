@@ -1,6 +1,6 @@
 
 
-class LDFS:
+class LimitedDepthFirstSearch:
     def __init__ (self):
         self.closed = []
 
@@ -12,20 +12,21 @@ class LDFS:
         gearPositions = []    
         for gear in gears:
             gearPositions.append(gear.possition)
-        self.closed.append(gearPositions)
 
         if self.closed.__contains__(gearPositions):
             return None
 
+        self.closed.append(gearPositions)
+
         if gearPositions is goalState:
-            return gears
+            return []
 
         for gearToBeRotated in range(gears.Length):
             gearCopy = gears.copy()
             self._Rotate(gearCopy, gearToBeRotated)
             result = self._LimitedSearch(gearCopy, currentLevel + 1, maxLevel, goalState)
             if result is not None:
-                return result
+                return result.append(gearToBeRotated)
             
         return None 
 
