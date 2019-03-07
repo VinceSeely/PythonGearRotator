@@ -5,8 +5,8 @@ class GUI:
 
     def __init__(self):
         self.root = Tk()
-        self.root.title("")
-        self.root.geometry('{}x{}'.format(600, 450))
+        self.root.title("Gear Puzzle Solver")
+        self.root.geometry('{}x{}'.format(500, 350))
         self.root.resizable(width=False, height=False)
         # self.root.protocol("WM_DELETE_WINDOW", self.closing)
 
