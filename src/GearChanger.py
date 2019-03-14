@@ -1,4 +1,5 @@
 import random
+import kivy
 import Gear
 
 from kivy.app import App

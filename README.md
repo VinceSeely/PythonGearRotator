@@ -2,6 +2,7 @@
 [gearChart]: ./images/GearDecision.jpg
 [implementationInfo]: ./Documentation/Implementation.md
 [iterativeSearch]: ./Documentation/IterativeBreadthSearch.md
+[bestfirstSearch]: ./Documentation/BestFirstSearch.md
 
 # PythonGearRotator
 
@@ -29,3 +30,5 @@ When a person turns a gear there is a number of other gears that can turn an unk
 ## [Implementation Details][implementationInfo]
 
 ## [Iterative Depth Search][iterativeSearch]
+
+## [Best First Search][bestfirstSearch]
