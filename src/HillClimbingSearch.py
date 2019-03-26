@@ -4,7 +4,8 @@ class HillClimbingSearch:
         self.nextLevelHeuristicValue = []
         self.lowestHeuristicValue
         self.goalState = goalState
-
+    def Run(self, gears, goal):
+        self.HillClimbingSearch(gears)
     def HillClimbingSearch(self, gears):
         self.nextLevel.clear()
         self.nextLevelHeuristicValue.clear()
@@ -16,7 +17,7 @@ class HillClimbingSearch:
             self.nextLevel.append(result)
             self.nextLevelHeuristicValue.append(value)
 
-        for index in range(self.nextLevelHeuristicValue.Length):
+        for index in range(len(self.nextLevelHeuristicValue)):
             if self.nextLevelHeuristicValue[index] < self.lowestHeuristicValue or self.lowestHeuristicValue is None:
                 self.lowestHeuristicValue = self.nextLevelHeuristicValue[index]
 

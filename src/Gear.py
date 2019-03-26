@@ -8,6 +8,7 @@ class Gear():
         if max_pos > self.max_turn:
             self.max_turn = 1
         self.position = random.randint(0, max_pos)
+        self.goal = random.randint(0, max_pos)
         self.max_position = max_pos
         self.rotations = self.random_gears(total_gears)
 
