@@ -1,7 +1,7 @@
 from tkinter import *
 from Gear import *
 import time
-from BestFirstSearch import *
+from HillClimbingSearch import *
 from LimitedDepthFirstSearch import *
 
 
@@ -71,8 +71,8 @@ class GUI:
         self.idfsButton = Button(self.buttonPanel, text="Iterative Depth First", width=20)
         self.idfsButton.pack(side=TOP, pady=10)
 
-        self.bfsButton = Button(self.buttonPanel, text="Best First", width=20)
-        self.bfsButton.pack(side=TOP, pady=10)
+        self.hillClimbButton = Button(self.buttonPanel, text="Hill Climb", width=20)
+        self.hillClimbButton.pack(side=TOP, pady=10)
 
         self.aStarButton = Button(self.buttonPanel, text="A*", width=20)
         self.aStarButton.pack(side=TOP, pady=10)
@@ -103,7 +103,7 @@ class GUI:
 
     def initBindings(self):
         self.idfsButton.bind("<Button-1>", self.idfs_Handler)
-        self.bfsButton.bind("<Button-1>", self.bestFirst_Handler)
+        self.hillClimbButton.bind("<Button-1>", self.hillClimbing_Handler)
         self.aStarButton.bind("<Button-1>", self.aStar_Handler)
         self.generateButton.bind("<Button-1>", self.GenerateGears)
     
@@ -155,10 +155,10 @@ class GUI:
 
 
 
-    def bestFirst_Handler(self, button):
+    def hillClimbing_Handler(self, button):
         self.timeText['text'] = "fuck1"        
-        bestFirst = BestFirstSearch(self.goal)
-        self.runAny(bestFirst)
+        hillClimbing = HillClimbingSearch(self.goal)
+        self.runAny(hillClimbing)
 
     def aStar_Handler(self, button):
         self.timeText['text'] = "fuck2"
