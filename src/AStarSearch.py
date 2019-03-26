@@ -1,33 +1,34 @@
-class A-StarSearch:
+class AStarSearch:
     def __init__(self, goalState):
-        self.nextLevel = []
-        self.nextLevelHeuristicValue = []
-        self.lowestCost
-        self.goalState = goalState
         self.knownStates = {}
+        self.goalState = goalState
+        self.lowestCost
 
-    def A-StarSearch(self, gears):
-        self.nextLevel.clear()
-        self.nextLevelHeuristicValue.clear()
+    def AStarSearch(self, gears):
+        nextLevel = []
+        nextLevelHeuristicValue = []
 
         for gearToBeRotated in range(gears.Length):
             gearCopy = gears.copy()
             result = self._Rotate(gearCopy, gearToBeRotated)
             value = self.calcHeuristicValue(result)
-            self.nextLevel.append(result)
-            self.nextLevelHeuristicValue.append(value)
+            nextLevel.append(result)
+            nextLevelHeuristicValue.append(value)
             self.updateKnownValues(gears, result, gearToBeRotated)
 
+        lowestCostIndex = 0
         for index in range(self.nextLevel.Length):
-            cost = self.nextLevelHeuristicValue[index] + self.updateKnownValues[self.getKey(self.nextLevel[index])].Length
+            cost = nextLevelHeuristicValue[index] + self.updateKnownValues[self.getKey(nextLevel[index])].Length
+            if self.lowestCost is None:
+                self.lowestCost = cost
             if cost < self.lowestCost:
                 self.lowestCost = cost
+                lowestCostIndex = index
 
-        if self.nextLevel[self.nextLevelHeuristicValue.index(self.lowestHeuristicValue)] == self.goalState:
-            return self.goalState
+        if self.goalState in self.knownStates:
+            return self.knownStates[self.goalState]
         else:
-            path = [gears]
-            return path.append(A-StarSearch(self.nextLevel[index]))
+            AStarSearch(self.nextLevel[lowestCostIndex])
 
     def calcHeuristicValue(self, gears):
         heuristic = 0
@@ -48,12 +49,11 @@ class A-StarSearch:
         else:
             self.knownStates[newKey] = [gearTurned]
 
-    def getKey(self, gears)
+    def getKey(self, gears):
         key = ""
         for gear in gears:
             key += str(gear.position)
         return key
-
 
     def _Rotate (self, gearCopy, gearRotating):
         for gear in range(gearCopy):
