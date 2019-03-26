@@ -3,35 +3,38 @@ import copy
 
 class HillClimbingSearch:
     def __init__(self, goalState):
-        self.nextLevel = []
-        self.nextLevelHeuristicValue = []
-        self.lowestHeuristicValue = None
         self.goalState = goalState
     
     def Run(self, gears, goal):
-        return self.HillClimbingSearch(gears)
+        result = self.HillClimbingSearch(gears)
+        return result
 
     def HillClimbingSearch(self, gears):
-        self.nextLevel.clear()
-        self.lowestHeuristicValue = None
-        self.nextLevelHeuristicValue.clear()
+        result = []
+        gearCopy = copy.deepcopy(gears)
+        while True:
+            nextLevel = []
+            nextLevelHeuristicValue = []
+            lowestHeuristicValue = None
+            for gearToBeRotated in range(len(gearCopy)):
+                gearCopyTemp = copy.deepcopy(gearCopy)
+                self._Rotate(gearCopyTemp, gearToBeRotated)
+                value = self.calcHeuristicValue(gearCopyTemp)
+                nextLevel.append(gearCopyTemp)
+                nextLevelHeuristicValue.append(value)
 
-        for gearToBeRotated in range(len(gears)):
-            gearCopy = copy.deepcopy(gears)
-            self._Rotate(gearCopy, gearToBeRotated)
-            value = self.calcHeuristicValue(gearCopy)
-            self.nextLevel.append(gearCopy)
-            self.nextLevelHeuristicValue.append(value)
+            for index in range(len(nextLevelHeuristicValue)):
+                if lowestHeuristicValue is None or nextLevelHeuristicValue[index] < lowestHeuristicValue:
+                    lowestHeuristicValue = nextLevelHeuristicValue[index]
 
-        for index in range(len(self.nextLevelHeuristicValue)):
-            if self.lowestHeuristicValue is None or self.nextLevelHeuristicValue[index] < self.lowestHeuristicValue:
-                self.lowestHeuristicValue = self.nextLevelHeuristicValue[index]
-
-        if self.lowestHeuristicValue is sum(self.goalState):#self.nextLevel[self.nextLevelHeuristicValue.index(self.lowestHeuristicValue)] == self.goalState:
-            return self.goalState
-        else:
-            path = [self.nextLevelHeuristicValue.index(self.lowestHeuristicValue)]
-            return path.append(self.HillClimbingSearch(self.nextLevel[self.nextLevelHeuristicValue.index(self.lowestHeuristicValue)]))
+            nextLevelIndex = nextLevelHeuristicValue.index(lowestHeuristicValue)
+            if lowestHeuristicValue is 0:
+                result.append(nextLevelIndex)
+                break
+            else:
+                result.append(nextLevelIndex)
+            gearCopy = nextLevel[nextLevelIndex]
+        return result
 
     def calcHeuristicValue(self, gears):
         heuristic = 0

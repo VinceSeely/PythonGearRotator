@@ -6,8 +6,10 @@ class LimitedDepthFirstSearch:
         self.gears = []
     
     def Run(self, gears, goal):
-        return self.IterativeSearch(gears, 6, 500, goal)
-        
+        result = self.IterativeSearch(gears, 6, 500, goal)
+        if result is not None:
+            result.reverse()
+        return result
 
     def IterativeSearch(self, gears, startLevel, MaxLevel, goalState):
         result = None

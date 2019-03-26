@@ -38,7 +38,7 @@ class GUI:
         
         self.scrollbar = Scrollbar(orient="vertical")
         self.scrollbar.config(command=self.gearValues.yview)
-        self.scrollbar.pack(side="left", fill="y")
+        self.scrollbar.pack(side="left", fill="y", pady=10)
 
         self.gearValues.config(yscrollcommand=self.scrollbar.set)
 
@@ -119,7 +119,7 @@ class GUI:
         self.goal = []
         for gear in self.Gears:
             self.goal.append(gear.goal)
-        self.gearValues.delete(0,END)
+        self.gearValues.delete(0, END)
         self.startState["text"] = positions[0:(len(positions) - 2)]
         self.goalState["text"] = self.goal 
     
