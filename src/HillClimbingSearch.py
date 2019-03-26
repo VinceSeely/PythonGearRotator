@@ -2,12 +2,13 @@ class HillClimbingSearch:
     def __init__(self, goalState):
         self.nextLevel = []
         self.nextLevelHeuristicValue = []
-        self.lowestHeuristicValue
+        self.lowestHeuristicValue = None
         self.goalState = goalState
     def Run(self, gears, goal):
         self.HillClimbingSearch(gears)
     def HillClimbingSearch(self, gears):
         self.nextLevel.clear()
+        self.lowestHeuristicValue = None
         self.nextLevelHeuristicValue.clear()
 
         for gearToBeRotated in range(gears.Length):
@@ -24,8 +25,8 @@ class HillClimbingSearch:
         if self.nextLevel[self.nextLevelHeuristicValue.index(self.lowestHeuristicValue)] == self.goalState:
             return self.goalState
         else:
-            path = [nextLevelHeuristicValue.index(lowestHeuristicValue)]
-            return path.append(HillClimbingSearch(self.nextLevel[nextLevelHeuristicValue.index(lowestHeuristicValue)]))
+            path = [self.nextLevelHeuristicValue.index(self.lowestHeuristicValue)]
+            return path.append(HillClimbingSearch(self.nextLevel[self.nextLevelHeuristicValue.index(self.lowestHeuristicValue)]))
 
     def calcHeuristicValue(self, gears):
         heuristic = 0
