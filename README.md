@@ -3,8 +3,11 @@
 [implementationInfo]: ./Documentation/Implementation.md
 [iterativeSearch]: ./Documentation/IterativeBreadthSearch.md
 [bestfirstSearch]: ./Documentation/BestFirstSearch.md
+[setupLink]: ./Documentation/Setup.md
 
 # PythonGearRotator
+
+## [Setup][setupLink]
 
 ## Problem Description
 
