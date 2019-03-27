@@ -145,7 +145,7 @@ class GUI:
         gearsCopy = copy.deepcopy(self.Gears)
         for turn in results:
             Gear.Rotate(gearsCopy, turn)
-            self.gearValues.insert(END, self.getPositionsString(gearsCopy))
+            self.gearValues.insert(END, "{}: {}".format(turn + 1, self.getPositionsString(gearsCopy)))
 
     def getPositionsString(self, gearsCopy):
         gearPositions = ""
