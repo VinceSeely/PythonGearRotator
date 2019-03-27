@@ -1,5 +1,7 @@
 import copy
 
+import Gear
+
 
 class HillClimbingSearch:
     def __init__(self, goalState):
@@ -18,7 +20,7 @@ class HillClimbingSearch:
             lowestHeuristicValue = None
             for gearToBeRotated in range(len(gearCopy)):
                 gearCopyTemp = copy.deepcopy(gearCopy)
-                self._Rotate(gearCopyTemp, gearToBeRotated)
+                Gear.Rotate(gearCopyTemp, gearToBeRotated)
                 value = self.calcHeuristicValue(gearCopyTemp)
                 nextLevel.append(gearCopyTemp)
                 nextLevelHeuristicValue.append(value)
@@ -46,10 +48,6 @@ class HillClimbingSearch:
         return heuristic
 
 
-    def _Rotate (self, gearCopy, gearRotating):
-        gearCopy[gearRotating].turn(1)# = (gearCopy[gearRotating].position + 1) % 9
-        for gear in range(len(gearCopy)):
-            if gear is not gearRotating:
-                gearCopy[gear].turn(gearCopy[gearRotating].rotations[gear])
+
 
 

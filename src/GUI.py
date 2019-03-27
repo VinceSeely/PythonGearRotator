@@ -39,6 +39,9 @@ class GUI:
         self.scrollbar = Scrollbar(orient="vertical")
         self.scrollbar.config(command=self.gearValues.yview)
         self.scrollbar.pack(side="left", fill="y", pady=10)
+        self.bottomScroll = Scrollbar(orient="horizontal")
+        self.bottomScroll.config(command=self.gearValues.yview)
+        self.bottomScroll.pack(side="left")
 
         self.gearValues.config(yscrollcommand=self.scrollbar.set)
 
@@ -77,10 +80,10 @@ class GUI:
         self.aStarButton = Button(self.buttonPanel, text="A*", width=20)
         self.aStarButton.pack(side=TOP, pady=10)
 
-        self.buttonPanel.pack(side=LEFT, padx = 20)
-        gear1 = Gear(9, 3)
-        gear2 = Gear(9, 3)
-        gear3 = Gear(9, 3)
+        self.buttonPanel.pack(side=LEFT, padx=20)
+        gear1 = Gear.Gear(9, 3)
+        gear2 = Gear.Gear(9, 3)
+        gear3 = Gear.Gear(9, 3)
         gear1.goal = 6
         gear2.goal = 3
         gear3.goal = 1
@@ -97,9 +100,9 @@ class GUI:
         self.goal = []
         for gear in self.Gears:
             self.goal.append(gear.goal)
-        self.gearValues.delete(0,END)
+        self.gearValues.delete(0, END)
         self.startState["text"] = positions[0:(len(positions) - 2)]
-        self.goalState["text"] = self.goal 
+        self.goalState["text"] = ", ".join(map(str, self.goal))
 
     def initBindings(self):
         self.idfsButton.bind("<Button-1>", self.idfs_Handler)
@@ -113,15 +116,14 @@ class GUI:
         numPositions = int(self.numPositionsEntry.get())
         for entry in range(numGears):
             self.Gears.append(Gear(numPositions, numGears))
-        positions = ""
-        for gear in self.Gears:
-            positions += '{}, '.format(gear.position)
         self.goal = []
         for gear in self.Gears:
             self.goal.append(gear.goal)
+        goalString = ", ".join(map(self.goal))
+
         self.gearValues.delete(0, END)
-        self.startState["text"] = positions[0:(len(positions) - 2)]
-        self.goalState["text"] = self.goal 
+        self.startState["text"] = self.getPositionsString(self.gears)
+        self.goalState["text"] = goalString
     
     def idfs_Handler(self, button):
         idfs = LimitedDepthFirstSearch()
@@ -131,29 +133,25 @@ class GUI:
         t0 = time.time()
         result = methodToBeRun.Run(self.Gears, self.goal)
         t1 = time.time()
-        self.turnsList['text'] = "None" if result is None else result
+        if result is None:
+            self.turnsList['text'] = "None"
+        else:
+            self.printResults(result)
+            self.turnsList['text'] = ", ".join(map(str, [x+1 for x in result]))
         self.timeText['text'] = t1-t0
-        self.printResults(result)
-    
+
     def printResults(self, results):
-        if results is not None:
-            self.gearValues.delete(0,END)
-            gearsCopy = copy.deepcopy(self.Gears)
-            for turn in results:
-                self._Rotate(gearsCopy, turn)
-                gearPositions = []    
-                for gear in gearsCopy:
-                    gearPositions.append(gear.position)
-                self.gearValues.insert(END, gearPositions)
-        
-    def _Rotate (self, gearCopy, gearRotating):
-        gearCopy[gearRotating].turn(1)
-        for gear in range(len(gearCopy)):
-            if gear is not gearRotating:
-                gearCopy[gear].turn(gearCopy[gearRotating].rotations[gear])
+        self.gearValues.delete(0, END)
+        gearsCopy = copy.deepcopy(self.Gears)
+        for turn in results:
+            Gear.Rotate(gearsCopy, turn)
+            self.gearValues.insert(END, self.getPositionsString(gearsCopy))
 
-
-
+    def getPositionsString(self, gearsCopy):
+        gearPositions = ""
+        for gear in gearsCopy:
+            gearPositions += '{}, '.format(gear.get_position())
+        return gearPositions[0:(len(gearPositions) - 2)]
 
     def hillClimbing_Handler(self, button):
         self.timeText['text'] = "fuck1"        
@@ -170,4 +168,3 @@ if __name__ == "__main__":
     tk = GUI()
     tk.initBindings()
     tk.root.mainloop()
-    

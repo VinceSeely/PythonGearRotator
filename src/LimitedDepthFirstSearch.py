@@ -1,4 +1,7 @@
+
 import copy
+import Gear
+
 
 class LimitedDepthFirstSearch:
     def __init__ (self):
@@ -41,18 +44,11 @@ class LimitedDepthFirstSearch:
 
         for gearToBeRotated in range(len(gears)):
             gearCopy = copy.deepcopy(gears)
-            self._Rotate(gearCopy, gearToBeRotated)
+            Gear.Rotate(gearCopy, gearToBeRotated)
             result = self._LimitedSearch(gearCopy, currentLevel + 1, maxLevel, goalState)
             if result is not None:
                 result.append(gearToBeRotated)
                 return result
             
         return None 
-
-    def _Rotate (self, gearCopy, gearRotating):
-        gearCopy[gearRotating].turn(1)# = (gearCopy[gearRotating].position + 1) % 9
-        for gear in range(len(gearCopy)):
-            if gear is not gearRotating:
-                gearCopy[gear].turn(gearCopy[gearRotating].rotations[gear])
-
 

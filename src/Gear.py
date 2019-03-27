@@ -23,3 +23,9 @@ class Gear():
 
     def get_position(self):
         return self.position + 1
+
+def Rotate (gearCopy, gearRotating):
+    gearCopy[gearRotating].turn(1)
+    for gear in range(len(gearCopy)):
+        if gear is not gearRotating:
+            gearCopy[gear].turn(gearCopy[gearRotating].rotations[gear])
