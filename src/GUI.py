@@ -115,14 +115,14 @@ class GUI:
         numGears = int(self.numGearsEntry.get())
         numPositions = int(self.numPositionsEntry.get())
         for entry in range(numGears):
-            self.Gears.append(Gear(numPositions, numGears))
+            self.Gears.append(Gear.Gear(numPositions, numGears))
         self.goal = []
         for gear in self.Gears:
             self.goal.append(gear.goal)
-        goalString = ", ".join(map(self.goal))
+        goalString = ", ".join(map(str, self.goal))
 
         self.gearValues.delete(0, END)
-        self.startState["text"] = self.getPositionsString(self.gears)
+        self.startState["text"] = self.getPositionsString(self.Gears)
         self.goalState["text"] = goalString
 
     def idfs_Handler(self, button):

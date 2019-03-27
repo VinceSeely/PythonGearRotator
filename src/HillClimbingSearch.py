@@ -1,19 +1,32 @@
 import copy
+import multiprocessing
+from multiprocessing import Process
 
 import Gear
+
+timeOut = 50
 
 
 class HillClimbingSearch:
     def __init__(self, goalState):
         self.goalState = goalState
+        self.result = []
+        self.goalFound = False
     
     def Run(self, gears, goal):
-        result = self.HillClimbingSearch(gears)
+        result_queue = multiprocessing.Queue()
+        process = Process(target=self.HillClimbingSearch, args=(gears, result_queue,))
+        process.start()
+        process.join(timeout=50)
+        process.terminate()
+        if result_queue.empty():
+            return None
+        result = result_queue.get(False)
         return result
 
-    def HillClimbingSearch(self, gears):
-        result = []
+    def HillClimbingSearch(self, gears, result_queue):
         gearCopy = copy.deepcopy(gears)
+        result = []
         while True:
             nextLevel = []
             nextLevelHeuristicValue = []
@@ -36,7 +49,7 @@ class HillClimbingSearch:
             else:
                 result.append(nextLevelIndex)
             gearCopy = nextLevel[nextLevelIndex]
-        return result
+        result_queue.put(result)
 
     def calcHeuristicValue(self, gears):
         heuristic = 0
@@ -46,8 +59,6 @@ class HillClimbingSearch:
                 value += self.goalState[index] + abs(value)
             heuristic += value
         return heuristic
-
-
 
 
 
