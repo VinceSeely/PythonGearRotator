@@ -8,21 +8,27 @@ This algorithm takes in the current state of gears and generates the next potent
 
 ```
 HillClimbingSearch(gears):
-    Reset class variables (nextLevel, nextLevelHeuristicValue, lowestHeuristicValue)
+    result = []
+    while true
+        nextLevel, nextLevelHeuristicValue, lowestHeuristicValue = [], [], None
 
-    for gearToBeRotated in range(gears.Length):
-        Turn gear in position gearToBeRotated
-        Append new gearsState to nextLevel
-        Calculate new gearsState's Heuristic Value
-        Append the Heuristic Value to nextLevelHeuristicValue
+        for gearToBeRotated in range(gears.Length):
+            Turn gear in position gearToBeRotated
+            Append new gearsState to nextLevel
+            Calculate new gearsState's Heuristic Value
+            Append the Heuristic Value to nextLevelHeuristicValue
 
-    for index = 0, index < self.nextLevelHeuristicValue.Length, index++:
-        Set lowestHeuristicValue to equal the lowest Heuristic Value of the new states
+        for index = 0, index < self.nextLevelHeuristicValue.Length, index++:
+            Set lowestHeuristicValue to equal the lowest Heuristic Value of the new states
 
-    if newGoalState with the lowest Heuristic Value == self.goalState:
-        return the goalState
-    else:
-        return an array containing the current gears with the next level search of best next state
+        nextLevelIndex = nextLevelHeuristicValue.index(lowestHeuristicValue)
+
+        if lowest Heuristic Value == 0:
+            result.append(nextLevelIndex)
+        else:
+            result.append(nextLevelIndex)
+
+    return result
 
 calcHeuristicValue(gears):
     heuristic = 0

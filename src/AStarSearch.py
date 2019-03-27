@@ -1,20 +1,29 @@
+import copy
+
+import Gear
+
+
 class AStarSearch:
     def __init__(self, goalState):
         self.knownStates = {}
         self.goalState = goalState
         self.lowestCost
 
+    def Run(self, gears, goal):
+        result = self.AStarSearch(gears)
+        return result
+
     def AStarSearch(self, gears):
         nextLevel = []
         nextLevelHeuristicValue = []
 
         for gearToBeRotated in range(gears.Length):
-            gearCopy = gears.copy()
-            result = self._Rotate(gearCopy, gearToBeRotated)
-            value = self.calcHeuristicValue(result)
-            nextLevel.append(result)
+            gearCopy = copy.deepcopy(gears)
+            Gear.Rotate(gearCopy, gearToBeRotated)
+            value = self.calcHeuristicValue(gearCopy)
+            nextLevel.append(gearCopy)
             nextLevelHeuristicValue.append(value)
-            self.updateKnownValues(gears, result, gearToBeRotated)
+            self.updateKnownValues(gears, gearCopy, gearToBeRotated)
 
         lowestCostIndex = 0
         for index in range(self.nextLevel.Length):
@@ -54,8 +63,3 @@ class AStarSearch:
         for gear in gears:
             key += str(gear.position)
         return key
-
-    def _Rotate (self, gearCopy, gearRotating):
-        for gear in range(gearCopy):
-            if gear is not gearRotating:
-                return gearCopy[gear].turn(gearCopy[gearRotating].rotations[gear])

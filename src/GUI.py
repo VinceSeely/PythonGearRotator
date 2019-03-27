@@ -1,7 +1,7 @@
 from tkinter import *
 from Gear import *
 import time
-from BestFirstSearch import *
+from HillClimbingSearch import *
 from LimitedDepthFirstSearch import *
 
 
@@ -34,11 +34,14 @@ class GUI:
         self.toolbar.pack(side=TOP, anchor=W, padx=10)
 
         self.gearValues = Listbox(self.root, width=20, height=19)
-        self.gearValues.pack(side=LEFT, padx=(10,0))
-        
+        self.gearValues.pack(side=LEFT, padx=(10, 0))
+
         self.scrollbar = Scrollbar(orient="vertical")
         self.scrollbar.config(command=self.gearValues.yview)
-        self.scrollbar.pack(side="left", fill="y")
+        self.scrollbar.pack(side="left", fill="y", pady=10)
+        # self.bottomScroll = Scrollbar(orient="horizontal")
+        # self.bottomScroll.config(command=self.gearValues.yview)
+        # self.bottomScroll.pack(side="left")
 
         self.gearValues.config(yscrollcommand=self.scrollbar.set)
 
@@ -55,7 +58,7 @@ class GUI:
         self.goalState.pack(side=TOP)
 
         self.turnsLabel = Label(self.infoPanel, text="Turn order:", width=20, anchor=W)
-        self.turnsList = Label(self.infoPanel, text="", width=20, anchor = W)
+        self.turnsList = Label(self.infoPanel, text="", width=20, anchor=W, justify=LEFT, wraplength=150)
         self.turnsLabel.pack(side=TOP)
         self.turnsList.pack(side=TOP)
 
@@ -71,94 +74,89 @@ class GUI:
         self.idfsButton = Button(self.buttonPanel, text="Iterative Depth First", width=20)
         self.idfsButton.pack(side=TOP, pady=10)
 
-        self.bfsButton = Button(self.buttonPanel, text="Best First", width=20)
-        self.bfsButton.pack(side=TOP, pady=10)
+        self.hillClimbButton = Button(self.buttonPanel, text="Hill Climb", width=20)
+        self.hillClimbButton.pack(side=TOP, pady=10)
 
         self.aStarButton = Button(self.buttonPanel, text="A*", width=20)
         self.aStarButton.pack(side=TOP, pady=10)
 
-        self.buttonPanel.pack(side=LEFT, padx = 20)
-        gear1 = Gear(9, 3)
-        gear2 = Gear(9, 3)
-        gear3 = Gear(9, 3)
+        self.buttonPanel.pack(side=LEFT, padx=20)
+        gear1 = Gear.Gear(9, 3)
+        gear2 = Gear.Gear(9, 3)
+        gear3 = Gear.Gear(9, 3)
         gear1.goal = 6
         gear2.goal = 3
         gear3.goal = 1
         gear1.position = 4
         gear2.position = 2
         gear3.position = 1
-        gear1.rotations = [2,6,5]
-        gear2.rotations = [1,5,1]
-        gear3.rotations = [3,1,4]
-        self.Gears = [gear1,gear2,gear3]
+        gear1.rotations = [2, 6, 5]
+        gear2.rotations = [1, 5, 1]
+        gear3.rotations = [3, 1, 4]
+        self.Gears = [gear1, gear2, gear3]
         positions = ""
         for gear in self.Gears:
-            positions += '{}, '.format(gear.position)
+            positions += '{}, '.format(gear.get_position())
         self.goal = []
         for gear in self.Gears:
             self.goal.append(gear.goal)
-        self.gearValues.delete(0,END)
+        self.gearValues.delete(0, END)
         self.startState["text"] = positions[0:(len(positions) - 2)]
-        self.goalState["text"] = self.goal 
+        self.goalState["text"] = ", ".join(map(str, [x + 1 for x in self.goal]))
 
     def initBindings(self):
         self.idfsButton.bind("<Button-1>", self.idfs_Handler)
-        self.bfsButton.bind("<Button-1>", self.bestFirst_Handler)
+        self.hillClimbButton.bind("<Button-1>", self.hillClimbing_Handler)
         self.aStarButton.bind("<Button-1>", self.aStar_Handler)
         self.generateButton.bind("<Button-1>", self.GenerateGears)
-    
+
     def GenerateGears(self, button):
         self.Gears = []
         numGears = int(self.numGearsEntry.get())
         numPositions = int(self.numPositionsEntry.get())
         for entry in range(numGears):
-            self.Gears.append(Gear(numPositions, numGears))
-        positions = ""
-        for gear in self.Gears:
-            positions += '{}, '.format(gear.position)
+            self.Gears.append(Gear.Gear(numPositions, numGears))
         self.goal = []
         for gear in self.Gears:
             self.goal.append(gear.goal)
-        self.gearValues.delete(0,END)
-        self.startState["text"] = positions[0:(len(positions) - 2)]
-        self.goalState["text"] = self.goal 
-    
+        goalString = ", ".join(map(str, self.goal))
+
+        self.gearValues.delete(0, END)
+        self.startState["text"] = self.getPositionsString(self.Gears)
+        self.goalState["text"] = goalString
+
     def idfs_Handler(self, button):
         idfs = LimitedDepthFirstSearch()
         self.runAny(idfs)
-    
-    def runAny(self, methodToBeRun):        
+
+    def runAny(self, methodToBeRun):
         t0 = time.time()
         result = methodToBeRun.Run(self.Gears, self.goal)
         t1 = time.time()
-        self.turnsList['text'] = "None" if result is None else result
-        self.timeText['text'] = t1-t0
-        self.printResults(result)
-    
+        if result is None:
+            self.turnsList['text'] = "None"
+        else:
+            self.printResults(result)
+            self.turnsList['text'] = ", ".join(map(str, [x + 1 for x in result]))
+        self.timeText['text'] = t1 - t0
+
     def printResults(self, results):
-        if results is not None:
-            self.gearValues.delete(0,END)
-            gearsCopy = copy.deepcopy(self.Gears)
-            for turn in results:
-                self._Rotate(gearsCopy, turn)
-                gearPositions = []    
-                for gear in gearsCopy:
-                    gearPositions.append(gear.position)
-                self.gearValues.insert(END, gearPositions)
-        
-    def _Rotate (self, gearCopy, gearRotating):
-        gearCopy[gearRotating].turn(1)
-        for gear in range(len(gearCopy)):
-            if gear is not gearRotating:
-                gearCopy[gear].turn(gearCopy[gearRotating].rotations[gear])
+        self.gearValues.delete(0, END)
+        gearsCopy = copy.deepcopy(self.Gears)
+        for turn in results:
+            Gear.Rotate(gearsCopy, turn)
+            self.gearValues.insert(END, "{}: {}".format(turn + 1, self.getPositionsString(gearsCopy)))
 
+    def getPositionsString(self, gearsCopy):
+        gearPositions = ""
+        for gear in gearsCopy:
+            gearPositions += '{}, '.format(gear.get_position())
+        return gearPositions[0:(len(gearPositions) - 2)]
 
-
-
-    def bestFirst_Handler(self, button):
-        self.timeText['text'] = "fuck1"        
-        bestFirst = BestFirstSearch(self.goal)
-        self.runAny(bestFirst)
+    def hillClimbing_Handler(self, button):
+        self.timeText['text'] = "fuck1"
+        hillClimbing = HillClimbingSearch(self.goal)
+        self.runAny(hillClimbing)
 
     def aStar_Handler(self, button):
         self.timeText['text'] = "fuck2"
@@ -170,4 +168,3 @@ if __name__ == "__main__":
     tk = GUI()
     tk.initBindings()
     tk.root.mainloop()
-    
