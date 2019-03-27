@@ -59,6 +59,3 @@ class HillClimbingSearch:
                 value += self.goalState[index] + abs(value)
             heuristic += value
         return heuristic
-
-
-
