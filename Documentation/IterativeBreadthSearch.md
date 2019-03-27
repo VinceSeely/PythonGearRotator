@@ -2,6 +2,8 @@
 
 ## Algorithm Description
 
+The Iterative depth first search looks at the current state of the system, and traverses the decisions by using a tree of all possible moves. it does this recursively looking down each branch and then traversing back up and down till it finds a solution or all possible positions have been visited. Then it returns an array of all the values for the order in which the gears were turned to get the final result of how the gears were turned.
+
 ## Pseudo Code
 
 ```
