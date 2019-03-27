@@ -58,7 +58,7 @@ class GUI:
         self.goalState.pack(side=TOP)
 
         self.turnsLabel = Label(self.infoPanel, text="Turn order:", width=20, anchor=W)
-        self.turnsList = Label(self.infoPanel, text="", width=20, anchor=W)
+        self.turnsList = Label(self.infoPanel, text="", width=20, anchor=W, justify=LEFT, wraplength=150)
         self.turnsLabel.pack(side=TOP)
         self.turnsList.pack(side=TOP)
 
