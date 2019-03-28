@@ -8,12 +8,13 @@ timeOut = 50
 
 
 class HillClimbingSearch:
-    def __init__(self, goalState):
-        self.goalState = goalState
+    def __init__(self):
+        self.goalState = []
         self.result = []
         self.goalFound = False
     
     def Run(self, gears, goal):
+        self.goalState = goal
         result_queue = multiprocessing.Queue()
         process = Process(target=self.HillClimbingSearch, args=(gears, result_queue,))
         process.start()
@@ -56,6 +57,6 @@ class HillClimbingSearch:
         for index in range(len(gears)):
             value = self.goalState[index] - gears[index].position
             if value < 0:
-                value += self.goalState[index] + abs(value)
+                value = self.goalState[index] + abs(value)
             heuristic += value
         return heuristic
