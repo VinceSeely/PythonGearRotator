@@ -109,6 +109,10 @@ class GUI:
         self.hillClimbButton.bind("<Button-1>", self.hillClimbing_Handler)
         self.aStarButton.bind("<Button-1>", self.aStar_Handler)
         self.generateButton.bind("<Button-1>", self.GenerateGears)
+        self.root.bind("i", self.idfs_Handler)
+        self.root.bind("h", self.hillClimbing_Handler)
+        self.root.bind("a", self.aStar_Handler)
+        self.root.bind("g", self.GenerateGears)
 
     def GenerateGears(self, button):
         self.Gears = []
@@ -119,11 +123,10 @@ class GUI:
         self.goal = []
         for gear in self.Gears:
             self.goal.append(gear.goal)
-        goalString = ", ".join(map(str, self.goal))
 
         self.gearValues.delete(0, END)
         self.startState["text"] = self.getPositionsString(self.Gears)
-        self.goalState["text"] = goalString
+        self.goalState["text"] = ", ".join(map(str, [x + 1 for x in self.goal]))
 
     def idfs_Handler(self, button):
         idfs = LimitedDepthFirstSearch()
