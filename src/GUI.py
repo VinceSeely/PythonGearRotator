@@ -3,6 +3,7 @@ from Gear import *
 import time
 from HillClimbingSearch import *
 from LimitedDepthFirstSearch import *
+from AStarSearch import *
 
 
 class GUI:
@@ -81,18 +82,18 @@ class GUI:
         self.aStarButton.pack(side=TOP, pady=10)
 
         self.buttonPanel.pack(side=LEFT, padx=20)
-        gear1 = Gear.Gear(9, 3)
-        gear2 = Gear.Gear(9, 3)
-        gear3 = Gear.Gear(9, 3)
+        gear1 = Gear.Gear(8, 3)
+        gear2 = Gear.Gear(8, 3)
+        gear3 = Gear.Gear(8, 3)
         gear1.goal = 6
-        gear2.goal = 3
-        gear3.goal = 1
-        gear1.position = 4
-        gear2.position = 2
-        gear3.position = 1
-        gear1.rotations = [2, 6, 5]
-        gear2.rotations = [1, 5, 1]
-        gear3.rotations = [3, 1, 4]
+        gear2.goal = 0
+        gear3.goal = 5
+        gear1.position = 2
+        gear2.position = 0
+        gear3.position = 0
+        gear1.rotations = [1, 1, 1]
+        gear2.rotations = [1, 1, 0]
+        gear3.rotations = [0, 1, 1]
         self.Gears = [gear1, gear2, gear3]
         positions = ""
         for gear in self.Gears:
@@ -119,11 +120,10 @@ class GUI:
         self.goal = []
         for gear in self.Gears:
             self.goal.append(gear.goal)
-        goalString = ", ".join(map(str, self.goal))
 
         self.gearValues.delete(0, END)
         self.startState["text"] = self.getPositionsString(self.Gears)
-        self.goalState["text"] = goalString
+        self.goalState["text"] = ", ".join(map(str, [x + 1 for x in self.goal]))
 
     def idfs_Handler(self, button):
         idfs = LimitedDepthFirstSearch()
@@ -155,13 +155,13 @@ class GUI:
 
     def hillClimbing_Handler(self, button):
         self.timeText['text'] = "fuck1"
-        hillClimbing = HillClimbingSearch(self.goal)
+        hillClimbing = HillClimbingSearch()
         self.runAny(hillClimbing)
 
     def aStar_Handler(self, button):
         self.timeText['text'] = "fuck2"
-        idfs = LimitedDepthFirstSearch()
-        self.runAny(idfs)
+        astar = AStarSearch()
+        self.runAny(astar)
 
 
 if __name__ == "__main__":
