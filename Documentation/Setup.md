@@ -7,15 +7,18 @@ if using anaconda:
 
 ## Build Executable
 
-### Using Anaconda
+###install Pyinstaller 
 
-isntall Pyinstaller 
+#### Using Anaconda
+
 ```
 conda install -c conda-forge pyinstaller
-conda install -c anaconda pywin32
+```
+```
+conda install -c anaconda pywin3
 ```
 
-### Using PIP
+#### Using PIP
 
 ```
 pip install pyinstaller
@@ -24,7 +27,7 @@ pip install pyinstaller
 ### Creating Windows Executable
 
 ```
-pyinstaller --onefile .\src\GUI.py
+pyinstaller .\GUI.spec
 ```
 
 the executable will be stored in ```.\dist\GUI.exe``` after running the above line
