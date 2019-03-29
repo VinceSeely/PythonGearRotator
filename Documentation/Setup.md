@@ -7,7 +7,7 @@ if using anaconda:
 
 ## Build Executable
 
-###install Pyinstaller 
+### Install Pyinstaller 
 
 #### Using Anaconda
 
