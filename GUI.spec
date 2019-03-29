@@ -4,7 +4,6 @@ block_cipher = None
 
 
 a = Analysis(['src\\GUI.py'],
-             pathex=['C:\\Users\\vince\\Documents\\Projects\\PythonGearRotator'],
              binaries=[],
              datas=[],
              hiddenimports=[],

@@ -30,4 +30,5 @@ pip install pyinstaller
 pyinstaller .\GUI.spec
 ```
 
-the executable will be stored in ```.\dist\GUI.exe``` after running the above line
+the executable will be stored in ```.\dist\GUI.exe``` after running the above line. 
+To build on MAC OS run ```pyinstaller --onefile .\src\GUI.py
