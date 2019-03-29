@@ -158,7 +158,7 @@ class GUI:
 
     def hillClimbing_Handler(self, button):
         self.timeText['text'] = "fuck1"
-        hillClimbing = HillClimbingSearch(self.goal)
+        hillClimbing = HillClimbingSearch()
         self.runAny(hillClimbing)
 
     def aStar_Handler(self, button):
