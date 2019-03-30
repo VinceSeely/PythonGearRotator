@@ -31,5 +31,17 @@ _limitedSearch (currentLevel, maxLevel, gears, goalState)
 ## Algorithm Properties
 
 ## Results
+```
+Inputs: [gear1, gear2, gear3], [goalGear1, goalGear1, goalGear1]       Note: The respective positions sets are [7, 6, 2] and [5, 1, 3]
+Output: [1, 1, 1, 1, 2, 2, 3, 3, 3, 3, 3]
+```
+```
+Inputs: [gear1, gear2, gear3], [goalGear1, goalGear1, goalGear1]       Note: The respective positions sets are [6, 5, 9] and [3, 2, 5]
+Output: [1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3]
+```
+```
+Inputs: [gear1, gear2, gear3], [goalGear1, goalGear1, goalGear1]       Note: The respective positions sets are [9, 5, 9] and [4, 1, 5]
+Output: [1, 1, 1, 2, 3]
+```
 
 [back](../README.md)

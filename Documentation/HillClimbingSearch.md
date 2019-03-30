@@ -40,5 +40,16 @@ calcHeuristicValue(gears):
 ## Algorithm Properties
 
 ## Results
-
+```
+Inputs: [gear1, gear2, gear3], [goalGear1, goalGear1, goalGear1]       Note: The respective positions sets are [3, 1, 1] and [7, 1, 6]
+Output: "None"
+```
+```
+Inputs: [gear1, gear2, gear3], [goalGear1, goalGear1, goalGear1]      Note: The respective positions sets are [3, 7, 3] and [3, 4, 7]
+Output: [3, 3, 3, 3, 2, 1, 1, 1]
+```
+```
+Inputs: [gear1, gear2, gear3], [goalGear1, goalGear1, goalGear1]       Note: The respective positions sets are [1, 6, 2] and [2, 8, 5]
+Output: [1, 2, 2, 3, 3]
+```
 [back](../README.md)
