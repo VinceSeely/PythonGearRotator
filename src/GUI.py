@@ -110,6 +110,10 @@ class GUI:
         self.hillClimbButton.bind("<Button-1>", self.hillClimbing_Handler)
         self.aStarButton.bind("<Button-1>", self.aStar_Handler)
         self.generateButton.bind("<Button-1>", self.GenerateGears)
+        self.root.bind("i", self.idfs_Handler)
+        self.root.bind("h", self.hillClimbing_Handler)
+        self.root.bind("a", self.aStar_Handler)
+        self.root.bind("g", self.GenerateGears)
 
     def GenerateGears(self, button):
         self.Gears = []
