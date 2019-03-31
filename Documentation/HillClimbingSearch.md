@@ -39,17 +39,37 @@ calcHeuristicValue(gears):
 
 ## Algorithm Properties
 
+This algorithm is greedy in which case it is not complete or admissibile. It does have irrevocability. This is not optimal for this problem because the tree grows infinitely. It's complexity is also potentially infinite.
+
 ## Results
 ```
-Inputs: [gear1, gear2, gear3], [goalGear1, goalGear1, goalGear1]       Note: The respective positions sets are [3, 1, 1] and [7, 1, 6]
-Output: "None"
+Inputs: 
+    [
+    {"min_turn"=0 "max_turn"=4 "position"=3 "goal"=7 "max_position"=8}, 
+    {"min_turn"=0 "max_turn"=4 "position"=1 "goal"=1 "max_position"=8}, 
+    {"min_turn"=0 "max_turn"=4 "position"=1 "goal"=6 "max_position"=8}
+    ]
+Output: 
+    "None"
 ```
 ```
-Inputs: [gear1, gear2, gear3], [goalGear1, goalGear1, goalGear1]      Note: The respective positions sets are [3, 7, 3] and [3, 4, 7]
-Output: [3, 3, 3, 3, 2, 1, 1, 1]
+Inputs: 
+    [
+    {"min_turn"=0 "max_turn"=4 "position"=3 "goal"=3 "max_position"=8}, 
+    {"min_turn"=0 "max_turn"=4 "position"=7 "goal"=4 "max_position"=8}, 
+    {"min_turn"=0 "max_turn"=4 "position"=3 "goal"=7 "max_position"=8}
+    ]
+Output: 
+    [3, 3, 3, 3, 2, 1, 1, 1]
 ```
 ```
-Inputs: [gear1, gear2, gear3], [goalGear1, goalGear1, goalGear1]       Note: The respective positions sets are [1, 6, 2] and [2, 8, 5]
-Output: [1, 2, 2, 3, 3]
+Inputs: 
+    [
+    {"min_turn"=0 "max_turn"=4 "position"=1 "goal"=2 "max_position"=8}, 
+    {"min_turn"=0 "max_turn"=4 "position"=6 "goal"=8 "max_position"=8}, 
+    {"min_turn"=0 "max_turn"=4 "position"=2 "goal"=5 "max_position"=8}
+    ]
+Output: 
+    [1, 2, 2, 3, 3]
 ```
 [back](../README.md)
