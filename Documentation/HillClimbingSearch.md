@@ -4,6 +4,8 @@
 
 The heurstic is the sum of each gear's goal position minus each gear's current position. If the difference is negative the absolute value of the difference is taken plus the maximum gear position possible and is added instead.
 
+$ \sum_{\forall i}{x_i^{2}} $
+
 $ \sum_{i=1}^{10} t_i goal + (goal - pos) : If goal - pos < 0 else goal - pos $
 ```
 $ \sum_{i=1}^{10} t_i goal + (goal - pos) : If goal - pos < 0 else goal - pos $
