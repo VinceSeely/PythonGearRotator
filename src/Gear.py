@@ -5,7 +5,7 @@ class Gear():
     def __init__(self, max_pos, total_gears):
         self.min_turn = 0
         self.max_turn = 4
-        if max_pos > self.max_turn:
+        if max_pos < self.max_turn:
             self.max_turn = 1
         self.position = random.randint(0, max_pos)
         self.goal = random.randint(0, max_pos)

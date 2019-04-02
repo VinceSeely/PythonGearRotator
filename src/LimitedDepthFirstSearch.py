@@ -16,7 +16,7 @@ class LimitedDepthFirstSearch:
 
     def IterativeSearch(self, gears, startLevel, MaxLevel, goalState):
         result = None
-        self.gears = gears.copy()
+        self.gears = gears
         for layer in range(startLevel, MaxLevel):
             result = self._LimitedSearch(gears, 0, layer, goalState)
             if result is not None:
