@@ -2,8 +2,8 @@
 [gearChart]: ./images/GearDecision.jpg
 [implementationInfo]: ./Documentation/Implementation.md
 [iterativeSearch]: ./Documentation/IterativeBreadthSearch.md
-[hillclimbingSearch]: ./Documentation/HillClimbingSearch.md
 [astarSearch]: ./Documentation/AStarSearch.md
+[HillClimbingSearch]: ./Documentation/HillClimbingSearch.md
 [setupLink]: ./Documentation/Setup.md
 
 # PythonGearRotator
@@ -35,6 +35,6 @@ When a person turns a gear there is a number of other gears that can turn an unk
 
 ## [Iterative Depth Search][iterativeSearch]
 
-## [Hill Climbing Search][hillclimbingSearch]
-
 ## [A* Search][astarSearch]
+
+## [HillClimbing Search][HillClimbingSearch]
