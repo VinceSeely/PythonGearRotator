@@ -2,7 +2,7 @@
 [gearChart]: ./images/GearDecision.jpg
 [implementationInfo]: ./Documentation/Implementation.md
 [iterativeSearch]: ./Documentation/IterativeBreadthSearch.md
-[bestfirstSearch]: ./Documentation/BestFirstSearch.md
+[HillClimbingSearch]: ./Documentation/HillClimbingSearch.md
 [setupLink]: ./Documentation/Setup.md
 
 # PythonGearRotator
@@ -34,4 +34,4 @@ When a person turns a gear there is a number of other gears that can turn an unk
 
 ## [Iterative Depth Search][iterativeSearch]
 
-## [Best First Search][bestfirstSearch]
+## [HillClimbing Search][HillClimbingSearch]
