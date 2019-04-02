@@ -36,32 +36,31 @@ This algorithm is complete and optimal since there is no weight applied to the e
 ```
 Inputs: 
     [
-    {"min_turn"=0 "max_turn"=4 "position"=7 "goal"=5 "max_position"=8}, 
-    {"min_turn"=0 "max_turn"=4 "position"=6 "goal"=1 "max_position"=8}, 
-    {"min_turn"=0 "max_turn"=4 "position"=2 "goal"=3 "max_position"=8}
+    {"min_turn"=0 "max_turn"=4 "position"=2 "goal"=6 "max_position"=8 "rotations"=[1, 1, 1]}, 
+    {"min_turn"=0 "max_turn"=4 "position"=0 "goal"=0 "max_position"=8 "rotations"=[1, 1, 0]}, 
+    {"min_turn"=0 "max_turn"=4 "position"=0 "goal"=5 "max_position"=8 "rotations"=[0, 1, 1]}
     ]
 Output: 
-   [1, 1, 1, 1, 2, 2, 3, 3, 3, 3, 3]
+   [1, 2, 2, 2, 3, 3, 3, 3]
 ```
 ```
 Inputs: 
     [
-    {"min_turn"=0 "max_turn"=4 "position"=6 "goal"=3 "max_position"=8}, 
-    {"min_turn"=0 "max_turn"=4 "position"=5 "goal"=2 "max_position"=8}, 
-    {"min_turn"=0 "max_turn"=4 "position"=9 "goal"=5 "max_position"=8}
+    {"min_turn"=0 "max_turn"=4 "position"=3 "goal"=3 "max_position"=8 "rotations"=[0, 0, 0]}, 
+    {"min_turn"=0 "max_turn"=4 "position"=4 "goal"=6 "max_position"=8 "rotations"=[0, 0, 0]}, 
+    {"min_turn"=0 "max_turn"=4 "position"=2 "goal"=7 "max_position"=8 "rotations"=[1, 1, 0]}
     ]
 Output: 
-   [1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3]
+    [1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 2, 2, 2, 2, 2, 3, 3, 3]
 ```
 ```
 Inputs: 
     [
-    {"min_turn"=0 "max_turn"=4 "position"=9 "goal"=4 "max_position"=8}, 
-    {"min_turn"=0 "max_turn"=4 "position"=5 "goal"=1 "max_position"=8}, 
-    {"min_turn"=0 "max_turn"=4 "position"=9 "goal"=5 "max_position"=8}
+    {"min_turn"=0 "max_turn"=4 "position"=7 "goal"=7 "max_position"=8 "rotations"=[1, 0, 0]}, 
+    {"min_turn"=0 "max_turn"=4 "position"=0 "goal"=2 "max_position"=8 "rotations"=[1, 0, 0]}, 
+    {"min_turn"=0 "max_turn"=4 "position"=8 "goal"=7 "max_position"=8 "rotations"=[1, 0, 1]}
     ]
 Output: 
-   [1, 1, 1, 2, 3]
+    [1, 1, 1, 1, 1, 1, 1, 3, 3, 2, 2, 3, 3, 3, 3, 3]
 ```
-
 [back](../README.md)

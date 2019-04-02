@@ -136,7 +136,8 @@ class GUI:
     def runAny(self, methodToBeRun):
         t0 = time.time()
         result = methodToBeRun.Run(self.Gears, self.goal)
-        t1 = time.time()
+        t1 = time.time()        
+        self.gearValues.delete(0, END)
         if result is None:
             self.turnsList['text'] = "None"
         else:
@@ -145,7 +146,6 @@ class GUI:
         self.timeText['text'] = t1 - t0
 
     def printResults(self, results):
-        self.gearValues.delete(0, END)
         gearsCopy = copy.deepcopy(self.Gears)
         for turn in results:
             Gear.Rotate(gearsCopy, turn)
