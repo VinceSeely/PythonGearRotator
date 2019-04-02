@@ -3,6 +3,7 @@ from Gear import *
 import time
 from HillClimbingSearch import *
 from LimitedDepthFirstSearch import *
+from AStarSearch import *
 
 
 class GUI:
@@ -81,18 +82,18 @@ class GUI:
         self.aStarButton.pack(side=TOP, pady=10)
 
         self.buttonPanel.pack(side=LEFT, padx=20)
-        gear1 = Gear.Gear(9, 3)
-        gear2 = Gear.Gear(9, 3)
-        gear3 = Gear.Gear(9, 3)
+        gear1 = Gear.Gear(8, 3)
+        gear2 = Gear.Gear(8, 3)
+        gear3 = Gear.Gear(8, 3)
         gear1.goal = 6
-        gear2.goal = 3
-        gear3.goal = 1
-        gear1.position = 4
-        gear2.position = 2
-        gear3.position = 1
-        gear1.rotations = [2, 6, 5]
-        gear2.rotations = [1, 5, 1]
-        gear3.rotations = [3, 1, 4]
+        gear2.goal = 0
+        gear3.goal = 5
+        gear1.position = 2
+        gear2.position = 0
+        gear3.position = 0
+        gear1.rotations = [1, 1, 1]
+        gear2.rotations = [1, 1, 0]
+        gear3.rotations = [0, 1, 1]
         self.Gears = [gear1, gear2, gear3]
         positions = ""
         for gear in self.Gears:
@@ -135,7 +136,8 @@ class GUI:
     def runAny(self, methodToBeRun):
         t0 = time.time()
         result = methodToBeRun.Run(self.Gears, self.goal)
-        t1 = time.time()
+        t1 = time.time()        
+        self.gearValues.delete(0, END)
         if result is None:
             self.turnsList['text'] = "None"
         else:
@@ -144,7 +146,6 @@ class GUI:
         self.timeText['text'] = t1 - t0
 
     def printResults(self, results):
-        self.gearValues.delete(0, END)
         gearsCopy = copy.deepcopy(self.Gears)
         for turn in results:
             Gear.Rotate(gearsCopy, turn)
@@ -163,8 +164,8 @@ class GUI:
 
     def aStar_Handler(self, button):
         self.timeText['text'] = "fuck2"
-        idfs = LimitedDepthFirstSearch()
-        self.runAny(idfs)
+        astar = AStarSearch()
+        self.runAny(astar)
 
 
 if __name__ == "__main__":

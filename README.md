@@ -2,6 +2,7 @@
 [gearChart]: ./images/GearDecision.jpg
 [implementationInfo]: ./Documentation/Implementation.md
 [iterativeSearch]: ./Documentation/IterativeBreadthSearch.md
+[astarSearch]: ./Documentation/AStarSearch.md
 [HillClimbingSearch]: ./Documentation/HillClimbingSearch.md
 [setupLink]: ./Documentation/Setup.md
 
@@ -33,5 +34,7 @@ When a person turns a gear there is a number of other gears that can turn an unk
 ## [Implementation Details][implementationInfo]
 
 ## [Iterative Depth Search][iterativeSearch]
+
+## [A* Search][astarSearch]
 
 ## [HillClimbing Search][HillClimbingSearch]

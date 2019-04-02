@@ -66,7 +66,7 @@ class AStarSearch:
             self.knownStatesCost[newStateKey] = hValue + 1
             return True
         else:
-            newStateCost = len(self.knownStatesPath[prevStateKey]) + self.knownStatesCost[prevStateKey] + hValue + 1
+            newStateCost = self.knownStatesCost[prevStateKey] + hValue + 1
             knownStateCost = self.knownStatesCost[newStateKey] if newStateKey in self.knownStatesCost else None
             if knownStateCost is None or newStateCost < knownStateCost:
                 next = copy.deepcopy(self.knownStatesPath[prevStateKey])

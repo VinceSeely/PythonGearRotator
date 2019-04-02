@@ -39,6 +39,37 @@ calcHeuristicValue(gears):
 
 ## Algorithm Properties
 
-## Results
+This algorithm is greedy in which case it is not complete or admissibile. It does have irrevocability. This is not optimal for this problem because the tree grows infinitely. It's complexity is also potentially infinite.
 
+## Results
+```
+Inputs: 
+    [
+    {"min_turn"=0 "max_turn"=4 "position"=2 "goal"=6 "max_position"=8 "rotations"=[1, 1, 1]}, 
+    {"min_turn"=0 "max_turn"=4 "position"=0 "goal"=0 "max_position"=8 "rotations"=[1, 1, 0]}, 
+    {"min_turn"=0 "max_turn"=4 "position"=0 "goal"=5 "max_position"=8 "rotations"=[0, 1, 1]}
+    ]
+Output: 
+    "None"
+```
+```
+Inputs: 
+    [
+    {"min_turn"=0 "max_turn"=4 "position"=3 "goal"=3 "max_position"=8 "rotations"=[0, 0, 0]}, 
+    {"min_turn"=0 "max_turn"=4 "position"=4 "goal"=6 "max_position"=8 "rotations"=[0, 0, 0]}, 
+    {"min_turn"=0 "max_turn"=4 "position"=2 "goal"=7 "max_position"=8 "rotations"=[1, 1, 0]}
+    ]
+Output: 
+    "None"
+```
+```
+Inputs: 
+    [
+    {"min_turn"=0 "max_turn"=4 "position"=7 "goal"=7 "max_position"=8 "rotations"=[1, 0, 0]}, 
+    {"min_turn"=0 "max_turn"=4 "position"=0 "goal"=2 "max_position"=8 "rotations"=[1, 0, 0]}, 
+    {"min_turn"=0 "max_turn"=4 "position"=8 "goal"=7 "max_position"=8 "rotations"=[1, 0, 1]}
+    ]
+Output: 
+    [2, 2, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1]
+```
 [back](../README.md)
