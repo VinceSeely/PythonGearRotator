@@ -1,4 +1,5 @@
 import copy
+import sys
 import multiprocessing
 from multiprocessing import Process
 
@@ -11,21 +12,22 @@ class HillClimbingSearch:
     def __init__(self):
         self.goalState = []
         self.result = []
+        self.displacementValues = []
         self.goalFound = False
     
     def Run(self, gears, goal):
         self.goalState = goal
-        result_queue = multiprocessing.Queue()
-        process = Process(target=self.HillClimbingSearch, args=(gears, result_queue,))
-        process.start()
-        process.join(timeout=50)
-        process.terminate()
-        if result_queue.empty():
-            return None
-        result = result_queue.get(False)
+        self.CalcGearDisplacementValues(gears)
+        result = self.HillClimbingSearch(gears)
         return result
 
-    def HillClimbingSearch(self, gears, result_queue):
+    def CalcGearDisplacementValues(self, gears):
+        self.displacementValues = [0] * len(gears)
+        for gear in range(len(gears)):
+            for gear2 in range(len(gears)):
+                self.displacementValues[gear] += gears[gear].rotations[gear2] if gear2 is not gear else 1
+
+    def HillClimbingSearch(self, gears):
         gearCopy = copy.deepcopy(gears)
         result = []
         while True:
@@ -44,19 +46,54 @@ class HillClimbingSearch:
                     lowestHeuristicValue = nextLevelHeuristicValue[index]
 
             nextLevelIndex = nextLevelHeuristicValue.index(lowestHeuristicValue)
-            if lowestHeuristicValue is 0:
+            if lowestHeuristicValue == 0.0:
                 result.append(nextLevelIndex)
                 break
             else:
                 result.append(nextLevelIndex)
             gearCopy = nextLevel[nextLevelIndex]
-        result_queue.put(result)
+        return result
 
     def calcHeuristicValue(self, gears):
         heuristic = 0
+        heuristic2 = 0.0
         for index in range(len(gears)):
+            turnsToGoal = self.simulateTurnToGoal(gears, index)
+            #print(turnsToGoal)
+            affectDivisor = self.GetEffectDivisor(turnsToGoal)
+            #print(affectDivisor)
+            heuristic2 += len(turnsToGoal) / affectDivisor
+            print("{}:{}".format(index, len(turnsToGoal) / affectDivisor))
             value = self.goalState[index] - gears[index].position
             if value < 0:
-                value = self.goalState[index] + abs(value)
+               value += gears[0].max_position
             heuristic += value
-        return heuristic
+        return heuristic2
+
+    def GetEffectDivisor(self, turns):
+        if len(turns) is not 0:
+            average = 0
+            for turn in turns:
+                average += self.displacementValues[turn]
+            average = average / len(turns)
+            return average
+        return 1
+
+    def simulateTurnToGoal(self, gears, gearToGetToGoal):
+        gearCopy = copy.deepcopy(gears)
+        rotatedOrder = []
+        while gearCopy[gearToGetToGoal].position is not gearCopy[gearToGetToGoal].goal:
+            bestRotation = sys.maxsize
+            bestRotationPos = gearToGetToGoal
+            for gear in range(len(gearCopy)):
+                loopCopy = copy.deepcopy(gearCopy)
+                Gear.Rotate(loopCopy, gear)
+                distanceFromGoal = loopCopy[gearToGetToGoal].goal - loopCopy[gearToGetToGoal].position
+                if distanceFromGoal < 0:
+                    distanceFromGoal += gears[0].max_position
+                if distanceFromGoal < bestRotation:
+                    bestRotation = distanceFromGoal
+                    bestRotationPos = gear
+            Gear.Rotate(gearCopy, bestRotationPos)
+            rotatedOrder.append(bestRotationPos)
+        return rotatedOrder

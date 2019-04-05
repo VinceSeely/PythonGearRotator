@@ -95,31 +95,19 @@ class GUI:
         self.aStarButton.pack(side=TOP, pady=10)
 
         self.buttonPanel.pack(side=LEFT, padx=20)
-        gear1 = Gear.Gear(8, 3)
-        gear2 = Gear.Gear(8, 3)
-        gear3 = Gear.Gear(8, 3)
-        gear1.goal = 6
-        gear2.goal = 0
-        gear3.goal = 5
-        gear1.position = 2
-        gear2.position = 0
-        gear3.position = 0
-        gear1.rotations = [1, 1, 1]
-        gear2.rotations = [1, 1, 0]
-        gear3.rotations = [0, 1, 1]
 
         gear1 = Gear.Gear(9, 3)
         gear2 = Gear.Gear(9, 3)
         gear3 = Gear.Gear(9, 3)
-        gear1.goal = 7
-        gear2.goal = 2
-        gear3.goal = 7
-        gear1.position = 7
-        gear2.position = 0
-        gear3.position = 8
-        gear1.rotations = [1, 0, 0]
-        gear2.rotations = [1, 0, 0]
-        gear3.rotations = [1, 0, 1]
+        gear1.goal = 4
+        gear2.goal = 1
+        gear3.goal = 1
+        gear1.position = 5
+        gear2.position = 4
+        gear3.position = 7
+        gear1.rotations = [3, 3, 0]
+        gear2.rotations = [3, 2, 1]
+        gear3.rotations = [1, 1, 0]
 
         self.Gears = [gear1, gear2, gear3]
         positions = ""
