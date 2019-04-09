@@ -1,42 +1,39 @@
-import copy
-import sys
 import multiprocessing
 from multiprocessing import Process
 
-import Gear
 
 timeOut = 50
 
 
 class HillClimbingSearch:
     def __init__(self):
-        self.goalState = []
         self.result = []
         self.displacementValues = []
 
-    def Run(self, gears, goal):
-        self.goalState = goal
-        self.CalcGearDisplacementValues(gears)
-        result = self.HillClimbingSearch(gears)
+    def Run(self, gear_manager):
+        self.CalcGearDisplacementValues(gear_manager)
+        result = self.HillClimbingSearch(gear_manager)
         return result
 
-    def CalcGearDisplacementValues(self, gears):
-        self.displacementValues = [0] * len(gears)
-        for gear in range(len(gears)):
-            for gear2 in range(len(gears)):
-                self.displacementValues[gear] += gears[gear].rotations[gear2] if gear2 is not gear else 1
+    def CalcGearDisplacementValues(self, gear_manager):
+        matrix = gear_manager.get_matrix()
+        self.displacementValues = [0] * len(matrix)
+        for gear in range(len(matrix)):
+            for rotation in range(len(matrix[gear])):
+                self.displacementValues[gear] += matrix[gear][rotation]
 
-    def HillClimbingSearch(self, gears):
-        gearCopy = copy.deepcopy(gears)
+    def HillClimbingSearch(self, gear_manager):
+        gearCopy = gear_manager.get_copy_of_gears()
         result = []
+        goal = gear_manager.get_goal()
         while True:
             nextLevel = []
             nextLevelHeuristicValue = []
             lowestHeuristicValue = None
+            nextLevelIndex = -1
             for gearToBeRotated in range(len(gearCopy)):
-                gearCopyTemp = copy.deepcopy(gearCopy)
-                Gear.Rotate(gearCopyTemp, gearToBeRotated)
-                value = self.calcHeuristicValue(gearCopyTemp)
+                gearCopyTemp = gear_manager.rotate_and_copy(gearCopy, gearToBeRotated)
+                value = self.calcHeuristicValue(gearCopyTemp, goal)
                 nextLevel.append(gearCopyTemp)
                 nextLevelHeuristicValue.append(value)
 
@@ -53,46 +50,11 @@ class HillClimbingSearch:
             gearCopy = nextLevel[nextLevelIndex]
         return result
 
-    def calcHeuristicValue(self, gears):
+    def calcHeuristicValue(self, gears, goal):
         heuristic = 0.0
-        heuristic2 = 0.0
         for index in range(len(gears)):
-            turnsToGoal = self.simulateTurnToGoal(gears, index)
-            #print(turnsToGoal)
-            affectDivisor = self.GetEffectDivisor(turnsToGoal)
-            #print(affectDivisor)
-            heuristic2 += len(turnsToGoal) / affectDivisor
-            print("{}:{}".format(index, len(turnsToGoal) / affectDivisor))
-            value = self.goalState[index] - gears[index].position
+            value = goal[index] - gears[index].position
             if value < 0:
                value += gears[0].max_position
             heuristic += (value / self.displacementValues[index])
         return heuristic
-
-    def GetEffectDivisor(self, turns):
-        if len(turns) is not 0:
-            average = 0
-            for turn in turns:
-                average += self.displacementValues[turn]
-            average = average / len(turns)
-            return average
-        return 1
-
-    def simulateTurnToGoal(self, gears, gearToGetToGoal):
-        gearCopy = copy.deepcopy(gears)
-        rotatedOrder = []
-        while gearCopy[gearToGetToGoal].position is not gearCopy[gearToGetToGoal].goal:
-            bestRotation = sys.maxsize
-            bestRotationPos = gearToGetToGoal
-            for gear in range(len(gearCopy)):
-                loopCopy = copy.deepcopy(gearCopy)
-                Gear.Rotate(loopCopy, gear)
-                distanceFromGoal = loopCopy[gearToGetToGoal].goal - loopCopy[gearToGetToGoal].position
-                if distanceFromGoal < 0:
-                    distanceFromGoal += gears[0].max_position
-                if distanceFromGoal < bestRotation:
-                    bestRotation = distanceFromGoal
-                    bestRotationPos = gear
-            Gear.Rotate(gearCopy, bestRotationPos)
-            rotatedOrder.append(bestRotationPos)
-        return rotatedOrder

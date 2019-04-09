@@ -1,5 +1,6 @@
 from tkinter import *
 from Gear import *
+from GearManager import *
 import time
 from HillClimbingSearch import *
 from LimitedDepthFirstSearch import *
@@ -14,7 +15,6 @@ class GUI:
         self.root.geometry('{}x{}'.format(575, 400))
         self.root.resizable(width=False, height=False)
         self.root.wm_iconbitmap('..\images\gearlogo.ico')
-        # self.root.protocol("WM_DELETE_WINDOW", self.closing)
 
         self.toolbar = Frame(self.root)
 
@@ -43,9 +43,6 @@ class GUI:
         self.scrollbar = Scrollbar(orient="vertical")
         self.scrollbar.config(command=self.gearValues.yview)
         self.scrollbar.pack(side="left", fill="y", pady=10)
-        # self.bottomScroll = Scrollbar(orient="horizontal")
-        # self.bottomScroll.config(command=self.gearValues.yview)
-        # self.bottomScroll.pack(side="left")
 
         self.gearValues.config(yscrollcommand=self.scrollbar.set)
 
@@ -96,29 +93,19 @@ class GUI:
 
         self.buttonPanel.pack(side=LEFT, padx=20)
 
-        gear1 = Gear.Gear(9, 3)
-        gear2 = Gear.Gear(9, 3)
-        gear3 = Gear.Gear(9, 3)
-        gear1.goal = 4
-        gear2.goal = 1
-        gear3.goal = 1
-        gear1.position = 5
-        gear2.position = 4
-        gear3.position = 7
-        gear1.rotations = [3, 3, 0]
-        gear2.rotations = [3, 2, 1]
-        gear3.rotations = [1, 1, 0]
+        gear1 = Gear.Gear(9, 5, 4)
+        gear2 = Gear.Gear(9, 4, 1)
+        gear3 = Gear.Gear(9, 7, 1)
+        rotation_matrix = [[1, 3, 0],
+                           [3, 1, 1],
+                           [1, 1, 1]]
 
-        self.Gears = [gear1, gear2, gear3]
-        positions = ""
-        for gear in self.Gears:
-            positions += '{}, '.format(gear.get_position())
-        self.goal = []
-        for gear in self.Gears:
-            self.goal.append(gear.goal)
+        gears = [gear1, gear2, gear3]
+        self.GearManager = GearManager(gears, rotation_matrix)
+
         self.gearValues.delete(0, END)
-        self.startState["text"] = positions[0:(len(positions) - 2)]
-        self.goalState["text"] = ", ".join(map(str, [x + 1 for x in self.goal]))
+        self.startState["text"] = self.GearManager.get_positions_string()
+        self.goalState["text"] = self.GearManager.get_goal_string()
 
     def initBindings(self):
         self.idfsButton.bind("<Button-1>", self.idfs_Handler)
@@ -128,7 +115,6 @@ class GUI:
         self.matrixButton.bind("<Button-1>", self.DisplayMatrix)
         self.rotateGear.bind("<Button-1>", self.RotateGear)
 
-
         self.root.bind("i", self.idfs_Handler)
         self.root.bind("h", self.hillClimbing_Handler)
         self.root.bind("a", self.aStar_Handler)
@@ -136,23 +122,19 @@ class GUI:
         self.root.bind("m", self.DisplayMatrix)
 
     def RotateGear(self, button):
-        Gear.Rotate(self.Gears, int(self.gearTurnBox.get()) - 1)        
-        self.startState["text"] = self.getPositionsString(self.Gears)
+        self.GearManager.rotate(int(self.gearTurnBox.get()) - 1)
+        self.startState["text"] = self.GearManager.get_positions_string()
 
     def GenerateGears(self, button):
-        self.Gears = []
         numGears = int(self.numGearsEntry.get())
         numPositions = int(self.numPositionsEntry.get()) - 1
         self.gearTurnBox["to"] = numGears
-        for entry in range(numGears):
-            self.Gears.append(Gear.Gear(numPositions, numGears))
-        self.goal = []
-        for gear in self.Gears:
-            self.goal.append(gear.goal)
+
+        self.GearManager.generate_random_gears(numGears, numPositions)
 
         self.gearValues.delete(0, END)
-        self.startState["text"] = self.getPositionsString(self.Gears)
-        self.goalState["text"] = ", ".join(map(str, [x + 1 for x in self.goal]))
+        self.startState["text"] = self.GearManager.get_positions_string()
+        self.goalState["text"] = self.GearManager.get_goal_string()
 
     def DisplayMatrix(self, button):
         window = Toplevel()
@@ -165,18 +147,11 @@ class GUI:
         matrixScrollbar = Scrollbar(window, orient="vertical")
         matrixScrollbar.config(command=matixDisplay.yview)
         matrixScrollbar.pack(side="left", fill="y", padx=(0,10), pady=10)
-        
-        
-        matrix = []
-        for x in self.Gears:
-            matrix.append("[{}]".format(", ".join(map(str, [y for y in x.rotations]))))
-        
+
+        matrix = self.GearManager.get_matrix()
+
         for turn in matrix:
            matixDisplay.insert(END, turn)
-
-
-        
-
 
     def idfs_Handler(self, button):
         idfs = LimitedDepthFirstSearch()
@@ -184,7 +159,7 @@ class GUI:
 
     def runAny(self, methodToBeRun):
         t0 = time.time()
-        result = methodToBeRun.Run(self.Gears, self.goal)
+        result = methodToBeRun.Run(self.GearManager)
         t1 = time.time()        
         self.gearValues.delete(0, END)
         if result is None:
@@ -195,16 +170,10 @@ class GUI:
         self.timeText['text'] = t1 - t0
 
     def printResults(self, results):
-        gearsCopy = copy.deepcopy(self.Gears)
+        gearsCopy = self.GearManager.get_copy_of_gears()
         for turn in results:
-            Gear.Rotate(gearsCopy, turn)
-            self.gearValues.insert(END, "{}: {}".format(turn + 1, self.getPositionsString(gearsCopy)))
-
-    def getPositionsString(self, gearsCopy):
-        gearPositions = ""
-        for gear in gearsCopy:
-            gearPositions += '{}, '.format(gear.get_position())
-        return gearPositions[0:(len(gearPositions) - 2)]
+            gearsCopy = self.GearManager.rotate_and_copy(gearsCopy, turn)
+            self.gearValues.insert(END, "{}: {}".format(turn + 1, ", ".join(map(str, [x.get_position() for x in gearsCopy]))))
 
     def hillClimbing_Handler(self, button):
         hillClimbing = HillClimbingSearch()

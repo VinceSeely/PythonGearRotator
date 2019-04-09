@@ -1,5 +1,5 @@
-from Gear import *
 import random
+import GearManager
 import time
 import csv
 from HillClimbingSearch import *
@@ -9,31 +9,30 @@ from AStarSearch import *
 
 class testFrame():
 
-    def GenerateGears(self):
-            Gears = []
-            numGears = random.randint(0, 45)
-            numPositions = random.randint(0, 45)
-            for entry in range(numGears):
-                Gears.append(Gear.Gear(numPositions, numGears))
-            return Gears
+    def __init__(self):
+        self.GearManager = GearManager.GearManager([],[])
 
-    def runSearch(self,search, Gears,searchtype):    
-            goal = []
-            for gear in Gears:
-                goal.append(gear.goal)
+    def GenerateGears(self):
+            numGears = random.randint(1, 45)
+            numPositions = random.randint(1, 45)
+            self.GearManager.generate_random_gears(numGears, numPositions)
+
+    def runSearch(self,search, searchtype):
             t0 = time.time()
-            result = search.Run(Gears, goal)
+            result = search.Run(self.GearManager)
             print("result Found")
             t1 = time.time()
             totalTime = t1 - t0
             #print to file
             with open('data.csv', 'a', newline='') as csvfile:
                 writer = csv.writer(csvfile, delimiter=',',
-                                quotechar='|', quoting=csv.QUOTE_MINIMAL)
+                                    quotechar='|', quoting=csv.QUOTE_MINIMAL)
+                numberOfGears = len(self.GearManager.get_copy_of_gears())
                 if result is not None:
-                    writer.writerow([result,len(result),totalTime,len(Gears),searchtype,Gears[0].max_position])
+                    writer.writerow([result, len(result), totalTime, numberOfGears, searchtype,
+                                     self.GearManager.totalPositions])
                 else:
-                    writer.writerow(["None",'',totalTime,len(Gears),searchtype])
+                    writer.writerow(["None", '', totalTime, numberOfGears, searchtype])
                 
     def run(self):
         with open('data.csv', 'w', newline='') as csvfile:
@@ -41,13 +40,13 @@ class testFrame():
                             quotechar='|', quoting=csv.QUOTE_MINIMAL)
             writer.writerow(["turns","numTurns","time","numGears","type","positions"])
         for x in range(100):
-            gears = self.GenerateGears()
+            self.GenerateGears()
             search = HillClimbingSearch()
-            self.runSearch(search,gears, "Hill Climb")
+            self.runSearch(search, "Hill Climb")
             search = LimitedDepthFirstSearch()
-            self.runSearch(search,gears, "LDFS")
+            self.runSearch(search, "LDFS")
             search = AStarSearch()
-            self.runSearch(search,gears,"A*")
+            self.runSearch(search,"A*")
 
 
 

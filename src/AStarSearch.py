@@ -1,5 +1,4 @@
 import copy
-import Gear
 
 
 class AStarSearch:
@@ -8,25 +7,30 @@ class AStarSearch:
         self.knownStatesCost = {}
         self.heuristicStates = {}
         self.newStates = []
-        self.goalState = []
         self.displacementValues = []
 
-    def Run(self, gears, goal):
-        self.goalState = goal
-        self.CalcGearDisplacementValues(gears)
-        result = self.AStarSearch(gears)
+    def Run(self, gear_manager):
+        self.CalcGearDisplacementValues(gear_manager)
+        result = self.AStarSearch(gear_manager)
         return result
 
-    def AStarSearch(self, gears):
-        gearInUse = copy.deepcopy(gears)
+    def CalcGearDisplacementValues(self, gear_manager):
+        matrix = gear_manager.get_matrix()
+        self.displacementValues = [0] * len(matrix)
+        for gear in range(len(matrix)):
+            for rotation in range(len(matrix[gear])):
+                self.displacementValues[gear] += matrix[gear][rotation]
+
+    def AStarSearch(self, gear_manager):
+        gearInUse = gear_manager.get_copy_of_gears()
+        goal = gear_manager.get_goal()
         while True:
             for gearToBeRotated in range(len(gearInUse)):
-                    gearCopyTemp = copy.deepcopy(gearInUse)
-                    Gear.Rotate(gearCopyTemp, gearToBeRotated)
-                    value = self.calcHeuristicValue(gearCopyTemp)
-                    addedNewState = self.updateKnownValues(gearInUse, gearCopyTemp, value, gearToBeRotated)
-                    if addedNewState:
-                        self.newStates.append(gearCopyTemp)
+                gearCopyTemp = gear_manager.rotate_and_copy(gearInUse, gearToBeRotated)
+                value = self.calcHeuristicValue(gearCopyTemp, goal)
+                addedNewState = self.updateKnownValues(gearInUse, gearCopyTemp, value, gearToBeRotated)
+                if addedNewState:
+                    self.newStates.append(gearCopyTemp)
 
             lowestCostIndex = None
             popPos = None
@@ -44,20 +48,14 @@ class AStarSearch:
             if popPos is None:
                 return None
             if self.heuristicStates[self.getKey(self.newStates[popPos])] == 0.0:
-                return self.knownStatesPath["".join(map(str, self.goalState))]
+                return self.knownStatesPath["".join(map(str, goal))]
             else:
-                gearInUse = copy.deepcopy(self.newStates.pop(popPos))
+                gearInUse = self.newStates.pop(popPos)
 
-    def CalcGearDisplacementValues(self, gears):
-        self.displacementValues = [0] * len(gears)
-        for gear in range(len(gears)):
-            for gear2 in range(len(gears)):
-                self.displacementValues[gear] += gears[gear].rotations[gear2] if gear2 is not gear else 1
-
-    def calcHeuristicValue(self, gears):
-        heuristic = 0
+    def calcHeuristicValue(self, gears, goal):
+        heuristic = 0.0
         for index in range(len(gears)):
-            value = self.goalState[index] - gears[index].position
+            value = goal[index] - gears[index].position
             if value < 0:
                 value += gears[0].max_position
             heuristic += (value / self.displacementValues[index])
@@ -88,22 +86,3 @@ class AStarSearch:
         for gear in gears:
             key += "{}".format(gear.position)
         return key
-
-
-
-if __name__ == "__main__":
-    astar = AStarSearch()
-    gear1 = Gear.Gear(8, 3)
-    gear2 = Gear.Gear(8, 3)
-    gear3 = Gear.Gear(8, 3)
-    gear1.goal = 6
-    gear2.goal = 0
-    gear3.goal = 5
-    gear1.position = 6
-    gear2.position = 5
-    gear3.position = 5
-    gear1.rotations = [1, 1, 1]
-    gear2.rotations = [1, 1, 0]
-    gear3.rotations = [0, 1, 1]
-    astar.goalState = [6,0,5]
-    astar.calcHeuristicValue([gear1,gear2,gear3])
