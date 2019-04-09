@@ -19,9 +19,7 @@ When a person turns a gear there is a number of other gears that can turn an unk
 ### Options
 
 1. Turn Gear 1 to right
-2. Turn Gear 1 to left
-3. Turn Gear 2 to right
-4. Turn Gear 2 to left
+2. Turn Gear 2 to right
 
 ### Gear Orientation
 

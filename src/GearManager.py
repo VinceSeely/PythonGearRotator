@@ -4,14 +4,14 @@ import copy
 
 
 class GearManager:
-    def __init__(self):
+    def __init__(self, gears=None, rotations_configuration=None):
         self.gears = []
         self.gearRotationsMatrix = []
         self.totalPositions = 0
-
-    def __init__(self, gears, rotations_configuration):
-        self.gears = gears
-        self.gearRotationsMatrix = rotations_configuration
+        if gears is not None and rotations_configuration is not None:
+            self.gears = gears
+            self.gearRotationsMatrix = rotations_configuration
+            self.totalPositions = gears[0].max_position
 
     def generate_random_gears(self, number_of_gears, number_of_positions):
         self.gearRotationsMatrix = []
