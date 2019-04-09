@@ -9,10 +9,11 @@ class AStarSearch:
         self.heuristicStates = {}
         self.newStates = []
         self.goalState = []
-        self.lowestCost = None
-        
+        self.displacementValues = []
+
     def Run(self, gears, goal):
         self.goalState = goal
+        self.CalcGearDisplacementValues(gears)
         result = self.AStarSearch(gears)
         return result
 
@@ -42,18 +43,24 @@ class AStarSearch:
 
             if popPos is None:
                 return None
-            if self.heuristicStates[self.getKey(self.newStates[popPos])] is 0:
+            if self.heuristicStates[self.getKey(self.newStates[popPos])] == 0.0:
                 return self.knownStatesPath["".join(map(str, self.goalState))]
             else:
                 gearInUse = copy.deepcopy(self.newStates.pop(popPos))
+
+    def CalcGearDisplacementValues(self, gears):
+        self.displacementValues = [0] * len(gears)
+        for gear in range(len(gears)):
+            for gear2 in range(len(gears)):
+                self.displacementValues[gear] += gears[gear].rotations[gear2] if gear2 is not gear else 1
 
     def calcHeuristicValue(self, gears):
         heuristic = 0
         for index in range(len(gears)):
             value = self.goalState[index] - gears[index].position
             if value < 0:
-                value = self.goalState[index] + abs(value)
-            heuristic += value
+                value += gears[0].max_position
+            heuristic += (value / self.displacementValues[index])
         return heuristic
 
     def updateKnownValues(self, initialState, newState, hValue, gearTurned):

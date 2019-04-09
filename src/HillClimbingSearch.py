@@ -13,8 +13,7 @@ class HillClimbingSearch:
         self.goalState = []
         self.result = []
         self.displacementValues = []
-        self.goalFound = False
-    
+
     def Run(self, gears, goal):
         self.goalState = goal
         self.CalcGearDisplacementValues(gears)
@@ -55,7 +54,7 @@ class HillClimbingSearch:
         return result
 
     def calcHeuristicValue(self, gears):
-        heuristic = 0
+        heuristic = 0.0
         heuristic2 = 0.0
         for index in range(len(gears)):
             turnsToGoal = self.simulateTurnToGoal(gears, index)
@@ -67,8 +66,8 @@ class HillClimbingSearch:
             value = self.goalState[index] - gears[index].position
             if value < 0:
                value += gears[0].max_position
-            heuristic += value
-        return heuristic2
+            heuristic += (value / self.displacementValues[index])
+        return heuristic
 
     def GetEffectDivisor(self, turns):
         if len(turns) is not 0:
