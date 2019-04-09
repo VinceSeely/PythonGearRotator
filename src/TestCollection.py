@@ -10,7 +10,7 @@ from AStarSearch import *
 class testFrame():
 
     def __init__(self):
-        self.GearManager = GearManager.GearManager([],[])
+        self.GearManager = GearManager.GearManager()
 
     def GenerateGears(self):
             numGears = random.randint(1, 45)
@@ -29,27 +29,30 @@ class testFrame():
                                     quotechar='|', quoting=csv.QUOTE_MINIMAL)
                 numberOfGears = len(self.GearManager.get_copy_of_gears())
                 if result is not None:
-                    writer.writerow([result, len(result), totalTime, numberOfGears, searchtype,
+                    writer.writerow(["".join(map(str, [x for x in result])), len(result), totalTime, numberOfGears, searchtype,
                                      self.GearManager.totalPositions])
+                    return True
                 else:
                     writer.writerow(["None", '', totalTime, numberOfGears, searchtype])
+            return False
                 
     def run(self):
         with open('data.csv', 'w', newline='') as csvfile:
             writer = csv.writer(csvfile, delimiter=',',
                             quotechar='|', quoting=csv.QUOTE_MINIMAL)
-            writer.writerow(["turns","numTurns","time","numGears","type","positions"])
+            writer.writerow(["turns", "numTurns", "time", "numGears", "type", "positions"])
         for x in range(100):
             self.GenerateGears()
-            search = HillClimbingSearch()
-            self.runSearch(search, "Hill Climb")
-            search = LimitedDepthFirstSearch()
-            self.runSearch(search, "LDFS")
             search = AStarSearch()
-            self.runSearch(search,"A*")
+            result_exists = self.runSearch(search, "A*")
+            self.runSearch(search, "LDFS")
+            search = LimitedDepthFirstSearch()
+            if result_exists:  # skips hill climb if there will be no result for it as hill climb will never finish
+                self.runSearch(search, "Hill Climb")
+                search = HillClimbingSearch()
 
 
 
-if __name__ ==  "__main__":    
+if __name__ ==  "__main__":
     test = testFrame()
     test.run()

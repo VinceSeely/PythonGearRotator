@@ -1,14 +1,10 @@
-import multiprocessing
-from multiprocessing import Process
-
-
-timeOut = 50
 
 
 class HillClimbingSearch:
     def __init__(self):
         self.result = []
         self.displacementValues = []
+        self.visitedHeuristic = {}
 
     def Run(self, gear_manager):
         self.CalcGearDisplacementValues(gear_manager)
@@ -30,7 +26,11 @@ class HillClimbingSearch:
             nextLevel = []
             nextLevelHeuristicValue = []
             lowestHeuristicValue = None
-            nextLevelIndex = -1
+            key = "".join(map(str, [x.position for x in gearCopy]))
+            if key in self.visitedHeuristic:
+                self.visitedHeuristic[key] += 1
+            else:
+                self.visitedHeuristic[key] = 1
             for gearToBeRotated in range(len(gearCopy)):
                 gearCopyTemp = gear_manager.rotate_and_copy(gearCopy, gearToBeRotated)
                 value = self.calcHeuristicValue(gearCopyTemp, goal)
@@ -57,4 +57,7 @@ class HillClimbingSearch:
             if value < 0:
                value += gears[0].max_position
             heuristic += (value / self.displacementValues[index])
+        key = "".join(map(str, [x.position for x in gears]))
+        if key in self.visitedHeuristic:
+            heuristic += self.visitedHeuristic[key]
         return heuristic
