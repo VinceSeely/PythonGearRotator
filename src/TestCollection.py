@@ -13,8 +13,8 @@ class testFrame():
         self.GearManager = GearManager.GearManager()
 
     def GenerateGears(self):
-            numGears = random.randint(1, 45)
-            numPositions = random.randint(1, 45)
+            numGears = 4
+            numPositions = 9
             self.GearManager.generate_random_gears(numGears, numPositions)
 
     def runSearch(self,search, searchtype):
@@ -41,7 +41,7 @@ class testFrame():
             writer = csv.writer(csvfile, delimiter=',',
                             quotechar='|', quoting=csv.QUOTE_MINIMAL)
             writer.writerow(["turns", "numTurns", "time", "numGears", "type", "positions"])
-        for x in range(100):
+        for x in range(1000):
             self.GenerateGears()
             search = AStarSearch()
             result_exists = self.runSearch(search, "A*")

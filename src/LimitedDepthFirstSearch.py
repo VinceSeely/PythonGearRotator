@@ -15,7 +15,7 @@ class LimitedDepthFirstSearch:
     def IterativeSearch(self, gear_manager, startLevel, MaxLevel):
         result = None
         gearCopy = gear_manager.get_copy_of_gears()
-        for layer in range(startLevel, MaxLevel):
+        for layer in range(startLevel, MaxLevel, 3):
             result = self._LimitedSearch(gear_manager, layer, gearCopy)
             if result is not None:
                 break

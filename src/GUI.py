@@ -82,13 +82,13 @@ class GUI:
 
         self.turnFrame.pack(side=TOP, pady=10)
 
-        self.idfsButton = Button(self.buttonPanel, text="Iterative Depth First", width=20)
+        self.idfsButton = Button(self.buttonPanel, text="Iterative Depth First", bg='#D3D3D3', width=20)
         self.idfsButton.pack(side=TOP, pady=10)
 
-        self.hillClimbButton = Button(self.buttonPanel, text="Hill Climb", width=20)
+        self.hillClimbButton = Button(self.buttonPanel, text="Hill Climb", bg='#D3D3D3', width=20)
         self.hillClimbButton.pack(side=TOP, pady=10)
 
-        self.aStarButton = Button(self.buttonPanel, text="A*", width=20)
+        self.aStarButton = Button(self.buttonPanel, text="A*", bg='#D3D3D3', width=20)
         self.aStarButton.pack(side=TOP, pady=10)
 
         self.buttonPanel.pack(side=LEFT, padx=20)
@@ -156,6 +156,9 @@ class GUI:
     def idfs_Handler(self, button):
         idfs = LimitedDepthFirstSearch()
         self.runAny(idfs)
+        self.aStarButton['bg'] = "#D3D3D3"
+        self.idfsButton['bg'] = "#76a6ed"
+        self.hillClimbButton['bg'] = "#D3D3D3"
 
     def runAny(self, methodToBeRun):
         t0 = time.time()
@@ -178,11 +181,16 @@ class GUI:
     def hillClimbing_Handler(self, button):
         hillClimbing = HillClimbingSearch()
         self.runAny(hillClimbing)
+        self.aStarButton['bg'] = "#D3D3D3"
+        self.hillClimbButton['bg'] = "#76a6ed"
+        self.idfsButton['bg'] = "#D3D3D3"
 
     def aStar_Handler(self, button):
         astar = AStarSearch()
         self.runAny(astar)
-
+        self.aStarButton['bg'] = "#76a6ed"
+        self.hillClimbButton['bg'] = "#D3D3D3"
+        self.idfsButton['bg'] = "#D3D3D3"
 
 if __name__ == "__main__":
     tk = GUI()
