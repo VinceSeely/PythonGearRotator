@@ -6,27 +6,31 @@ import Gear
 class LimitedDepthFirstSearch:
     def __init__(self):
         self.closed = []
+        self.visited = []
 
     def Run(self, gear_manager):
-        result = self.IterativeSearch(gear_manager, 6, 500)
+        result = self.IterativeSearch(gear_manager, 1, 500)
         return result
 
     def IterativeSearch(self, gear_manager, startLevel, MaxLevel):
         result = None
         gearCopy = gear_manager.get_copy_of_gears()
         for layer in range(startLevel, MaxLevel):
-            result = self._LimitedSearch(gear_manager, 0, layer, gearCopy)
+            result = self._LimitedSearch(gear_manager, layer, gearCopy)
             if result is not None:
                 break
-            self.closed = []
         self.closed.sort()
-        return result[0]
+        return result
 
-    def _LimitedSearch(self, gear_manager, currentLevel, maxLevel, gears):
+    def _LimitedSearch(self, gear_manager, maxLevel, gears):
         nodes_to_visit = [[[], gears]]
+        if len(self.visited) != 0:
+            nodes_to_visit = copy.deepcopy(self.visited)
+            self.visited = []
         while len(nodes_to_visit) != 0:
             currentNode = nodes_to_visit.pop()
             if len(currentNode[0]) > maxLevel:
+                self.visited.append(currentNode)
                 continue
 
             gearPositions = []    
@@ -39,7 +43,7 @@ class LimitedDepthFirstSearch:
             self.closed.append(gearPositions)
 
             if self.closed.__contains__(gear_manager.get_goal()):
-                return currentNode
+                return currentNode[0]
 
             for gearToBeRotated in range(len(gears)):
                 gearCopy = gear_manager.rotate_and_copy(currentNode[1], gearToBeRotated)
