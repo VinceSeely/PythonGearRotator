@@ -13,8 +13,8 @@ class testFrame():
         self.GearManager = GearManager.GearManager()
 
     def GenerateGears(self):
-            numGears = 4
-            numPositions = 9
+            numGears = random.randint(1, 10)
+            numPositions = random.randint(1, 10)
             self.GearManager.generate_random_gears(numGears, numPositions)
 
     def runSearch(self,search, searchtype):
@@ -43,14 +43,13 @@ class testFrame():
             writer.writerow(["turns", "numTurns", "time", "numGears", "type", "positions"])
         for x in range(1000):
             self.GenerateGears()
+            search = LimitedDepthFirstSearch()
+            self.runSearch(search, "LDFS")
             search = AStarSearch()
             result_exists = self.runSearch(search, "A*")
-            self.runSearch(search, "LDFS")
-            search = LimitedDepthFirstSearch()
             if result_exists:  # skips hill climb if there will be no result for it as hill climb will never finish
-                self.runSearch(search, "Hill Climb")
                 search = HillClimbingSearch()
-
+                self.runSearch(search, "Hill Climb")
 
 
 if __name__ ==  "__main__":

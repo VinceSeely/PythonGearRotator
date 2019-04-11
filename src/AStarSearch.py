@@ -82,7 +82,5 @@ class AStarSearch:
         return False
 
     def getKey(self, gears):
-        key = ""
-        for gear in gears:
-            key += "{}".format(gear.position)
+        key = "".join(map(str, [x.position for x in gears]))
         return key
