@@ -1,6 +1,6 @@
 
 import copy
-import Gear
+import sys
 
 
 class LimitedDepthFirstSearch:
@@ -9,7 +9,7 @@ class LimitedDepthFirstSearch:
         self.visited = []
 
     def Run(self, gear_manager):
-        result = self.IterativeSearch(gear_manager, 1, 500)
+        result = self.IterativeSearch(gear_manager, 1, sys.maxsize)
         return result
 
     def IterativeSearch(self, gear_manager, startLevel, MaxLevel):
