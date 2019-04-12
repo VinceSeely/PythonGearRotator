@@ -13,15 +13,18 @@ class testFrame():
         self.GearManager = GearManager.GearManager()
 
     def GenerateGears(self):
-            numGears = random.randint(1, 10)
-            numPositions = random.randint(1, 10)
+            numGears = random.randint(1, 5)
+            print(numGears)
+            numPositions = random.randint(1, 9)
+            print(numPositions)
             self.GearManager.generate_random_gears(numGears, numPositions)
 
     def runSearch(self,search, searchtype):
+            print(searchtype)
             t0 = time.time()
             result = search.Run(self.GearManager)
-            print("result Found")
             t1 = time.time()
+            print("result Found")
             totalTime = t1 - t0
             #print to file
             with open('data.csv', 'a', newline='') as csvfile:
@@ -29,11 +32,12 @@ class testFrame():
                                     quotechar='|', quoting=csv.QUOTE_MINIMAL)
                 numberOfGears = len(self.GearManager.get_copy_of_gears())
                 if result is not None:
+                    print(result)
                     writer.writerow(["".join(map(str, [x for x in result])), len(result), totalTime, numberOfGears, searchtype,
                                      self.GearManager.totalPositions])
                     return True
                 else:
-                    writer.writerow(["None", '', totalTime, numberOfGears, searchtype])
+                    writer.writerow(["None", '', totalTime, numberOfGears, searchtype, self.GearManager.totalPositions])
             return False
                 
     def run(self):
@@ -52,6 +56,6 @@ class testFrame():
                 self.runSearch(search, "Hill Climb")
 
 
-if __name__ ==  "__main__":
+if __name__ == "__main__":
     test = testFrame()
     test.run()
