@@ -1,0 +1,127 @@
+#: import main GearVisualizer
+#: import rotation Rotations
+#: import ListAdapter kivy.adapters.listadapter.ListAdapter
+
+
+GearVisualizer:
+
+<GearVisualizer>:
+    orientation: "vertical"
+    number_of_gears: number_of_gears
+    number_of_positions: number_of_positions
+    time_taken: time
+    turns_done: turns
+    gear_initial_state: initial_state
+    gear_goal_state: goal_state
+    turn_results: gear_turn_results
+    padding: 1
+    spacing: 10
+
+    BoxLayout:
+        orientation:"horizontal"
+        size_hint_y: None
+        height: "40dp"
+
+        Label:
+            text: "Number of Gears:"
+        TextInput:
+            text: "3"
+            id: number_of_gears
+        Label:
+            text: "Number of Positions:"
+        TextInput:
+            text: "9"
+            id: number_of_positions
+        Button:
+            text: "generate"
+            on_press: root.generate_gears()
+
+    BoxLayout:
+        orientation:"horizontal"
+        spacing: 10
+        ListView:
+            id: gear_turn_results
+            adapter:
+                ListAdapter(data=[], cls=rotation.Rotations)
+
+        FloatLayout:
+            Label:
+                size_hint_y: None
+                pos_hint:{"top":.8 , "center_x":.5}
+                size: self.texture_size
+                text_size: self.width, None
+                text: "Initial State"
+            Label:
+                size_hint_y: None
+                pos_hint:{"top": .75, "center_x":.5}
+                size: self.texture_size
+                text_size: self.width, None
+                text: "N/A"
+                id: initial_state
+            Label:
+                size_hint_y: None
+                pos_hint:{"top": .7, "center_x":.5}
+                size: self.texture_size
+                text_size: self.width, None
+                text: "Goal State"
+            Label:
+                size_hint_y: None
+                pos_hint:{"top": .65, "center_x":.5}
+                size: self.texture_size
+                text_size: self.width, None
+                text: "N/A"
+                id: goal_state
+            Label:
+                size_hint_y: None
+                pos_hint:{"top": .6, "center_x":.5}
+                size: self.texture_size
+                text_size: self.width, None
+                text: "Time"
+            Label:
+                size_hint_y: None
+                pos_hint:{"top": .55, "center_x":.5}
+                size: self.texture_size
+                text_size: self.width, None
+                text: "N/A"
+                id: time
+            Label:
+                size_hint_y: None
+                pos_hint:{"top": .5, "center_x":.5}
+                size: self.texture_size
+                text_size: self.width, None
+                size: self.texture_size
+                text: "Turn Order"
+            Label:
+                size_hint_y: None
+                pos_hint:{"top": .45, "center_x":.5}
+                text_size: self.width, None
+                size: self.texture_size
+                text: "N/A"
+                id: turns
+        BoxLayout:
+            orientation:"vertical"
+            BoxLayout:
+                Button:
+                    size_hint_y: None
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+                    text: "LDFS"
+                    height: 30
+                    padding: 10, 10
+                    on_press: root.limited_depth_first_search()
+            BoxLayout:
+                Button:
+                    size_hint_y: None
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+                    text: "A*"
+                    height: 30
+                    padding: 10, 10
+                    on_press: root.a_star()
+            BoxLayout:
+                Button:
+                    size_hint_y: None
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+                    text: "Hill Climb"
+                    height: 30
+                    padding: 10, 10
+                    on_press: root.hill_climb()
+
