@@ -24,6 +24,8 @@ class AStarSearch:
     def AStarSearch(self, gear_manager):
         gearInUse = gear_manager.get_copy_of_gears()
         goal = gear_manager.get_goal()
+        if gear_manager.get_positions() == goal:
+            return []
         while True:
             for gearToBeRotated in range(len(gearInUse)):
                 gearCopyTemp = gear_manager.rotate_and_copy(gearInUse, gearToBeRotated)

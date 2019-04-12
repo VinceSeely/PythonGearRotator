@@ -22,6 +22,8 @@ class HillClimbingSearch:
         gearCopy = gear_manager.get_copy_of_gears()
         result = []
         goal = gear_manager.get_goal()
+        if gear_manager.get_positions() == goal:
+            return []
         while True:
             nextLevel = []
             nextLevelHeuristicValue = []
