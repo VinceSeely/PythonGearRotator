@@ -19,6 +19,7 @@ class AIScreen(Screen):
 
     def on_enter(self, *args):
         if self.gear_goal_state is not None:
+            self.turn_results.adapter.data = []
             self.gear_initial_state.text = self.gear_manager.get_positions_string()
             self.time_taken.text = "N/A"
             self.turns_done.text = "N/A"
