@@ -1,6 +1,8 @@
+from AIScreen import *
 from GearVisualizer import *
 
 from kivy.app import App
+
 
 
 class GearVisualizerApp(App):

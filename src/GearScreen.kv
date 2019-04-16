@@ -1,0 +1,24 @@
+#: import main GearScreen
+#: include SwitchScreens.kv
+#: import rotation Rotations
+#: import ListAdapter kivy.adapters.listadapter.ListAdapter
+
+GearScreen:
+
+<GearScreen@Screen>:
+    name:"other_screen"
+    BoxLayout:
+        orientation: "vertical"
+        padding: 1
+        spacing: 10
+
+        BoxLayout:
+            orientation: "horizontal"
+            Button:
+                text: "AI Testing"
+                on_press:
+                    root.manager.current= 'ai_screen'
+            Button:
+                text: "Gear View"
+                on_press:
+                    root.manager.current= 'other_screen'

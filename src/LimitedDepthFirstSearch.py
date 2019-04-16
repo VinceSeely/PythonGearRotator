@@ -19,6 +19,8 @@ class LimitedDepthFirstSearch:
             result = self._LimitedSearch(gear_manager, layer, gearCopy)
             if result is not None:
                 break
+            if len(self.visited) == 0:
+                break
         self.closed.sort()
         return result
 

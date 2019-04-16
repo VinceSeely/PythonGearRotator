@@ -3,7 +3,8 @@
 block_cipher = None
 
 
-a = Analysis(['src\\GUI.py'],
+a = Analysis(['src\\GUI.pyw'],
+             pathex=['C:\\Users\\vince\\Documents\\Projects\\PythonGearRotator'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -28,5 +29,4 @@ exe = EXE(pyz,
           strip=False,
           upx=True,
           runtime_tmpdir=None,
-          console=True, 
-		  icon='images/gearlogo.ico')
+          console=False )

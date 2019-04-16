@@ -76,3 +76,6 @@ class GearManager:
     def rotate(self, gear_rotating):
         for gear in range(len(self.gears)):
             self.gears[gear].turn(self.gearRotationsMatrix[gear_rotating][gear])
+
+
+gear_manager_instance = GearManager()
