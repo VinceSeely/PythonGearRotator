@@ -1,0 +1,20 @@
+#: include main SwitchScreens
+
+<SwitchScreens@FloatLayout>:
+    orientation: "horizontal"
+    size_hint_y: None
+    pos_hint: {"top":1, "x":0}
+    Button:
+        size_hint_y: None
+        size_hint_x: .25
+        pos_hint:{"top":.99, "x":.001}
+        text: "AI Testing"
+        on_press:
+            root.parent.parent.manager.current= 'ai_screen'
+    Button:
+        size_hint_y: None
+        size_hint_x: .25
+        pos_hint:{"top":.99, "x":.251}
+        text: "Gear View"
+        on_press:
+            root.parent.parent.manager.current= 'gear_screen'

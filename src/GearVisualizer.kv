@@ -1,4 +1,5 @@
 #: import main GearVisualizer
+#: import NoTransition kivy.uix.screenmanager.NoTransition
 #: include AIScreen.kv
 #: include GearScreen.kv
 #: include SwitchScreens.kv
@@ -7,6 +8,7 @@
 GearVisualizer:
 
 <GearVisualizer@ScreenManager>:
+    transition: NoTransition()
     GearScreen:
     AIScreen:
 

@@ -6,19 +6,35 @@
 GearScreen:
 
 <GearScreen@Screen>:
-    name:"other_screen"
+    name:"gear_screen"
+    current_gear_positions: gear_positions
+    gear_turning: gear_to_turn
     BoxLayout:
         orientation: "vertical"
         padding: 1
         spacing: 10
-
+        SwitchScreens:
         BoxLayout:
-            orientation: "horizontal"
+            orientation: "vertical"
+            Label:
+                halign: "left"
+                text: "Positions:"
+            Label:
+                text: "N/A"
+                id: gear_positions
+        FloatLayout:
+            padding: 10,10
+            TextInput:
+                size_hint_max_x: 80
+                size_hint_max_y: 50
+                input_type: 'number'
+                input_filter: 'int'
+                id: gear_to_turn
+                pos_hint:{"top": 1, "center_x":.45}
             Button:
-                text: "AI Testing"
-                on_press:
-                    root.manager.current= 'ai_screen'
-            Button:
-                text: "Gear View"
-                on_press:
-                    root.manager.current= 'other_screen'
+                size_hint_max_x: 50
+                size_hint_max_y: 50
+                pos_hint:{"top": 1, "center_x":.55}
+                text: "rotate"
+                on_press: root.rotate_gear()
+

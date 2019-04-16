@@ -17,17 +17,7 @@ AIScreen:
         orientation: "vertical"
         padding: 1
         spacing: 10
-
-        BoxLayout:
-            orientation: "horizontal"
-            Button:
-                text: "AI Testing"
-                on_press:
-                    root.manager.current= 'ai_screen'
-            Button:
-                text: "Gear View"
-                on_press:
-                    root.manager.current= 'other_screen'
+        SwitchScreens:
 
         BoxLayout:
             orientation:"horizontal"
@@ -38,11 +28,15 @@ AIScreen:
                 text: "Number of Gears:"
             TextInput:
                 text: "3"
+                input_type: 'number'
+                input_filter: 'int'
                 id: number_of_gears
             Label:
                 text: "Number of Positions:"
             TextInput:
                 text: "9"
+                input_type: 'number'
+                input_filter: 'int'
                 id: number_of_positions
             Button:
                 text: "generate"

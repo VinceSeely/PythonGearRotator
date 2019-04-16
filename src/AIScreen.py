@@ -17,6 +17,13 @@ class AIScreen(Screen):
     gear_goal_state = ObjectProperty()
     gear_manager = gear_manager_instance
 
+    def on_enter(self, *args):
+        if self.gear_goal_state is not None:
+            self.gear_initial_state.text = self.gear_manager.get_positions_string()
+            self.time_taken.text = "N/A"
+            self.turns_done.text = "N/A"
+            self.turns_done.text = "None"
+
     def execute_search(self, search):
         t0 = time.time()
         result = search.Run(self.gear_manager)
