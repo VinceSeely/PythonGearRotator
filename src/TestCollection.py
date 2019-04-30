@@ -5,7 +5,8 @@ import csv
 from HillClimbingSearch import *
 from LimitedDepthFirstSearch import *
 from AStarSearch import *
-
+from DepthFirstSearch import *
+from BreadthFirstSearch import *
 
 class testFrame():
 
@@ -47,6 +48,10 @@ class testFrame():
             writer.writerow(["turns", "numTurns", "time", "numGears", "type", "positions"])
         for x in range(1000):
             self.GenerateGears()
+            search = DepthFirstSearch()
+            self.runSearch(search, "Depth First")
+            search = BreadthFirstSearch()
+            self.runSearch(search, "Breadth First")
             search = LimitedDepthFirstSearch()
             self.runSearch(search, "LDFS")
             search = AStarSearch()
