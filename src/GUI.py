@@ -14,7 +14,7 @@ class GUI:
         self.root.title("Gear Puzzle Solver")
         self.root.geometry('{}x{}'.format(575, 400))
         self.root.resizable(width=False, height=False)
-        self.root.wm_iconbitmap('..\images\gearlogo.ico')
+        #self.root.wm_iconbitmap('..\images\gearlogo.ico')
 
         self.toolbar = Frame(self.root)
 

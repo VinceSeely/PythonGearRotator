@@ -5,6 +5,7 @@ import csv
 from HillClimbingSearch import *
 from LimitedDepthFirstSearch import *
 from AStarSearch import *
+from BeamSearch import *
 from DepthFirstSearch import *
 from BreadthFirstSearch import *
 
@@ -59,6 +60,8 @@ class testFrame():
             if result_exists:  # skips hill climb if there will be no result for it as hill climb will never finish
                 search = HillClimbingSearch()
                 self.runSearch(search, "Hill Climb")
+                search = BeamSearch()
+                self.runSearch(search, "Beam Search")
 
 
 if __name__ == "__main__":
