@@ -25,7 +25,7 @@ class GearTuple:
         else:
             return False
 
-    def __le__(self, other):
+    def __lt__(self, other):
         if isinstance(other, GearTuple):
             return self.heuristic < other.heuristic
         else:
@@ -79,7 +79,7 @@ class BeamSearch:
             keptconfigs = heapq.nsmallest(numNodesKept, nextLevel)
             for index in keptconfigs:
                 queue.append(index)
-            gearCopy = copy.deepcopy(queue.pop(0))
+            gearCopy = queue.pop(0)
                 
         return None
 
